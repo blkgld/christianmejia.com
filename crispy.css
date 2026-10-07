@@ -1,0 +1,238 @@
+/* =====================================================
+   crispy.css: simple, clean, no frameworks
+   ===================================================== */
+
+/* ---------- Settings (change a color or size here, it updates everywhere) ---------- */
+:root {
+  --text: #111;
+  --muted: #555;
+  --bg: #fff;
+  --line: #e5e5e5;
+  --focus: #d00;
+
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-heading: "Open Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --header-height: 92px;
+  --bio-width: 44rem;      /* the narrower reading column */
+  --page-pad: clamp(1.25rem, 5vw, 6rem);
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  /* keeps anchor targets from hiding under the sticky header */
+  scroll-padding-top: var(--header-height);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+/* ---------- Skip link (for keyboard + screen reader users) ---------- */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  padding: 0.5rem 1rem;
+  background: var(--text);
+  color: #fff;
+  z-index: 200;
+}
+.skip-link:focus { top: 1rem; }
+
+/* =====================================================
+   HEADER: sticks to the top while scrolling
+   ===================================================== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-height: var(--header-height);
+  padding: 0 var(--page-pad);
+}
+
+.logo img {
+  width: 120px;   /* logo.png is 240px wide so it stays sharp on retina screens */
+  height: auto;
+}
+
+.site-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-nav a {
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+}
+.site-nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.site-nav span { font-size: 0.75em; }
+
+/* =====================================================
+   A. HERO: full-width image
+   ===================================================== */
+.hero img {
+  width: 100%;
+  height: clamp(180px, 25vw, 360px);
+  object-fit: cover;   /* crops instead of squishing */
+}
+
+/* =====================================================
+   B. BIO: centered, narrower column
+   ===================================================== */
+.bio { padding: clamp(2.5rem, 7vw, 5rem) var(--page-pad); }
+
+.bio__inner {
+  max-width: var(--bio-width);
+  margin: 0 auto;
+}
+
+.bio h1 {
+  margin: 0 0 1.5rem;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: clamp(2.75rem, 7vw, 4.25rem);
+  line-height: 1.1;
+}
+
+.bio p { margin: 0 0 1.5rem; }
+
+.bio__note {
+  margin-top: 2.5rem;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--muted);
+}
+
+/* =====================================================
+   C. ANIMATION: full-width embed
+   ===================================================== */
+.animation {
+  width: 100%;
+  border-top: 1px solid var(--line);
+}
+
+.animation iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;   /* change to 21 / 9 for a wider, shorter strip */
+  max-height: 85vh;
+  border: 0;
+}
+
+/* =====================================================
+   FOOTER: full-width, three columns
+   ===================================================== */
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding: 3rem var(--page-pad);
+  font-size: 1rem;
+}
+
+.site-footer__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.site-footer h2 {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.site-footer p { margin: 0; }
+
+.site-footer ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.site-footer li + li { margin-top: 0.4rem; }
+
+.site-footer a { text-underline-offset: 3px; }
+
+/* =====================================================
+   SMALL SCREENS
+   ===================================================== */
+/* Tablets (portrait iPad and similar) */
+@media (max-width: 900px) {
+  :root { --header-height: 84px; }
+
+  .logo img { width: 105px; }
+  .site-nav ul { gap: 1.25rem; }
+  .site-footer__grid { gap: 1.5rem; }
+}
+
+/* Phones */
+@media (max-width: 720px) {
+  :root { --header-height: 72px; }
+
+  body { font-size: 1rem; }
+
+  .logo img { width: 90px; }
+
+  .site-nav ul { gap: 0.25rem 1rem; }
+  .site-nav a {
+    display: inline-block;
+    padding: 0.75rem 0;     /* taller tap area for thumbs (about 44px) */
+    font-size: 0.9rem;
+  }
+
+  /* Animation gets more height on a narrow screen so it isn't tiny */
+  .animation iframe { aspect-ratio: 4 / 3; }
+
+  /* Footer stacks into a single column */
+  .site-footer { padding: 2.5rem var(--page-pad); }
+  .site-footer__grid { grid-template-columns: 1fr; }
+  .site-footer a { overflow-wrap: anywhere; }  /* long email addresses won't push the page wider */
+}
+
+/* Small phones (iPhone SE, older Androids) */
+@media (max-width: 400px) {
+  .site-header__inner { gap: 0.75rem; }
+  .logo img { width: 76px; }
+  .site-nav ul { gap: 0.25rem 0.75rem; }
+  .site-nav a { font-size: 0.8125rem; }
+  .site-nav span { display: none; }   /* drop the little icons to save space */
+}
+
+/* Respect people who turn off animations in their system settings */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
