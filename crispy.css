@@ -150,7 +150,7 @@ a { color: inherit; }
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;   /* change to 21 / 9 for a wider, shorter strip */
-  max-height: 85vh;
+  max-height: 75vh;
   border: 0;
 }
 
