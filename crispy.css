@@ -61,7 +61,7 @@ a { color: inherit; }
 .skip-link:focus { top: 1rem; }
 
 /* =====================================================
-   HEADER: sticks to the top while scrolling
+   HEADER: make it icky sticky
    ===================================================== */
 .site-header {
   position: sticky;
@@ -81,7 +81,7 @@ a { color: inherit; }
 }
 
 .logo img {
-  width: 120px;   /* logo.png is 240px wide so it stays sharp on retina screens */
+  width: 200px;   /* logo.png is 240px wide so it stays sharp on retina screens */
   height: auto;
 }
 
@@ -95,11 +95,21 @@ a { color: inherit; }
 }
 
 .site-nav a {
+  display: inline-block;
+  padding: 0.4rem 0.75rem;   /* always present, so nothing jumps on hover */
+  border-radius: 6px;
   text-decoration: none;
   font-size: 1rem;
   font-weight: 500;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
-.site-nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
+ 
+/* Hover + keyboard focus: soft grey highlight with white text */
+.site-nav a:hover,
+.site-nav a:focus-visible {
+  background: var(--nav-hover);
+  color: #fff;
+}
 .site-nav span { font-size: 0.75em; }
 
 /* =====================================================
