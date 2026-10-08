@@ -88,11 +88,11 @@ a { color: inherit; }
 .site-nav ul {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.75rem;
-  margin: 0;
+  gap: 0.5rem;
+  margin: 0 -0.75rem 0 0;   /* pulls the last link's padding back so its text lines up with the page edge */
   padding: 0;
   list-style: none;
-}
+
 
 .site-nav a {
   display: inline-block;
