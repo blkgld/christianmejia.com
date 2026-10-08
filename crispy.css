@@ -92,7 +92,7 @@ a { color: inherit; }
   margin: 0 -0.75rem 0 0;   /* pulls the last link's padding back so its text lines up with the page edge */
   padding: 0;
   list-style: none;
-
+}
 
 .site-nav a {
   display: inline-block;
