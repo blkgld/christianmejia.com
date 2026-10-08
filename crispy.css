@@ -98,7 +98,7 @@ a { color: inherit; }
 .site-nav a {
   display: inline-block;
   padding: 0.4rem 0.75rem;   /* always present, so nothing jumps on hover */
-  border-radius: 6px;
+  border-radius: 2px;
   text-decoration: none;
   font-size: 1rem;
   font-weight: 500;
