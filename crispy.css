@@ -8,6 +8,7 @@
   --muted: #555;
   --bg: #fff;
   --line: #e5e5e5;
+  --nav-hover: #595959;   /* white text on this grey = 7:1 contrast (WCAG AAA) */
   --focus: #d00;
 
   --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -108,7 +109,7 @@ a { color: inherit; }
 .site-nav a:hover,
 .site-nav a:focus-visible {
   background: var(--nav-hover);
-  color: #666;
+  color: #fff;
 }
 .site-nav span { font-size: 0.75em; }
 
