@@ -82,7 +82,7 @@ a { color: inherit; }
 }
 
 .logo img {
-  width: 200px;   /* logo.png is 240px wide so it stays sharp on retina screens */
+  width: 150px;   /* logo.png is 240px wide so it stays sharp on retina screens */
   height: auto;
 }
 
