@@ -120,11 +120,12 @@ a { color: inherit; }
 .hero {
   display: grid;
   place-items: center;                      /* centers the text on the image */
-  min-height: clamp(220px, 28vw, 380px);    /* hero height: smaller on phones, taller on desktop */
+  min-height: clamp(220px, 18vw, 380px);    /* hero height: smaller on phones, taller on desktop */
+  margin-top: 15px;  /* pushes the hero down so it doesn't hide under the sticky header */
   padding: 2rem var(--page-pad);
   background-color: #1a1a1a;                /* shows briefly while the image loads */
   background-image:
-    linear-gradient(var(--hero-overlay), var(--hero-overlay)),
+   
     url("assets/images/Hero_Background_Dark.jpg");
   background-size: cover;                   /* fills the box and crops instead of stretching */
   background-position: center;              /* change to "center top" or "center bottom" to shift the crop */
