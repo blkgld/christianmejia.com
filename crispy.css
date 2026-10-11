@@ -239,6 +239,17 @@ a { color: inherit; }
   border-radius: 6px;
 }
 .footer-icons a:hover { opacity: 0.6; }
+/* Logo + copyright on one line */
+.site-footer__brand {
+  display: flex;
+  align-items: center;   /* centers the text vertically against the logo */
+  gap: 0.75rem;          /* space between logo and text */
+}
+.site-footer__brand img {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;        /* keeps the logo from squishing on narrow screens */
+}
 
 /* =====================================================
    SMALL SCREENS
