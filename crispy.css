@@ -231,7 +231,16 @@ a { color: inherit; }
   flex-wrap: wrap;
   gap: 0.5rem;
 }
-.site-footer .footer-icons li + li { margin-top: 0; }   /* cancels the vertical spacing from the old stacked list */
+/* Footer icon rows: side by side, no bullets */
+.footer-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;      /* removes the bullets */
+}
+.footer-icons li + li { margin-top: 0; }   /* cancels vertical spacing from the old stacked list */
 
 .footer-icons a {
   display: block;
