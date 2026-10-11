@@ -224,6 +224,20 @@ a { color: inherit; }
 .site-footer li + li { margin-top: 0.4rem; }
 
 .site-footer a { text-underline-offset: 3px; }
+/* Footer icon rows: side by side instead of stacked */
+.site-footer .footer-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.site-footer .footer-icons li + li { margin-top: 0; }   /* cancels the vertical spacing from the old stacked list */
+
+.footer-icons a {
+  display: block;
+  padding: 0.4rem;          /* with a 32px icon, about a 45px tap area for thumbs */
+  border-radius: 6px;
+}
+.footer-icons a:hover { opacity: 0.6; }
 
 /* =====================================================
    SMALL SCREENS
