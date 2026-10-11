@@ -169,7 +169,7 @@ a { color: inherit; }
 .bio h2 {
   margin: 0 0 0.75rem;
   font-family: "Playfair Display", serif;
-  font-weight: 2rem;
+  font-optical-sizing: auto;
   font-weight: 600;
 }
 .bio p { margin: 0 0 1.5rem; }
