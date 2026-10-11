@@ -125,7 +125,7 @@ a { color: inherit; }
   background-color: #1a1a1a;                /* shows briefly while the image loads */
   background-image:
     linear-gradient(var(--hero-overlay), var(--hero-overlay)),
-    url("assets/images/dim_record_bar.jpg");
+    url("assets/images/Hero_Background_Dark.jpg");
   background-size: cover;                   /* fills the box and crops instead of stretching */
   background-position: center;              /* change to "center top" or "center bottom" to shift the crop */
   text-align: center;
