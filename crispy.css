@@ -168,9 +168,9 @@ a { color: inherit; }
 }
 .bio h2 {
   margin: 0 0 0.75rem;
-  font-family: "Playfair Display", serif;
-  font-optical-sizing: auto;
+  font-family: "Sawarabi Gothic", sans-serif;
   font-weight: 600;
+  font-style: normal;
 }
 .bio p { margin: 0 0 1.5rem; }
 
