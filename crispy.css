@@ -217,11 +217,6 @@ a { color: inherit; }
   font-family: "Questrial", sans-serif;
   font-weight: 600;
 }
-.site-footer img { 
-  display: inline-block; 
-  size: 20px;}
-.site-footer p { margin: 0; }
-
 .site-footer ul {
   margin: 0;
   padding: 0;
