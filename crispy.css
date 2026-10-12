@@ -253,7 +253,7 @@ a { color: inherit; }
   display: flex;
   align-items: center;   /* centers the text vertically against the logo */
   gap: 0.50rem;          /* space between logo and text */
-  margin-top: -3rem;
+  margin-top: -2rem;
 }
 .site-footer__brand img {
   width: 32px;
