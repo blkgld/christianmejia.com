@@ -1,0 +1,54 @@
+/*
+  Hero morph styles.
+  This file deliberately does not redefine .hero, .hero__h1, or .hero__text.
+  Your existing crispy.css keeps control of the hero layout and background.
+*/
+.hero .hero-morph {
+  display: block;
+  width: min(76vw, 760px);
+  height: auto;
+  max-height: 60vh;
+  overflow: visible;
+  margin: 0 auto;
+  flex: none;
+}
+.hero .hero-morph__shape {
+  fill: #fff;
+}
+.hero .hero-morph__mug-detail,
+.hero .hero-morph__steam,
+.hero .hero-morph__notes,
+.hero .hero-morph__logo-detail {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  pointer-events: none;
+}
+.hero .hero-morph__steam { stroke-width: 4; }
+.hero .hero-morph__notes .note-head { fill: #fff; stroke: none; }
+.hero .hero-morph__logo-detail .slash { stroke-width: 13; }
+.hero .hero-morph__record-grooves {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+  opacity: 0;
+  pointer-events: none;
+}
+.hero .hero-morph__word {
+  fill: #fff;
+}
+@media (max-width: 600px) {
+  .hero .hero-morph {
+    width: 88vw;
+    max-height: 48vh;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero .hero-morph__steam,
+  .hero .hero-morph__notes {
+    display: none !important;
+  }
+}
