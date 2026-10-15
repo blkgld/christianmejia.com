@@ -1,18 +1,3 @@
-.hero {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  display: grid;
-  place-items: center;
-  min-height: 70vh;
-
-}
-.hero__h1 {
-  margin: 0;
-  color: #fff;
-  font-size: clamp(4rem, 12vw, 9rem);
-  line-height: 1;
-}
 /* The SVG sits in the same visual slot as the original heading. */
 .hero-morph {
   display: block;

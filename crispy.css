@@ -124,9 +124,7 @@ a { color: inherit; }
   margin-top: 15px;  /* pushes the hero down so it doesn't hide under the sticky header */
   padding: 2rem var(--page-pad);
   background-color: #1a1a1a;                /* shows briefly while the image loads */
-  background-image:
-   
-    url("assets/images/Hero_Background_Dark.jpg");
+  background-image: url("assets/images/Hero_Background_Dark.jpg");
   background-size: cover;                   /* fills the box and crops instead of stretching */
   background-position: center;              /* change to "center top" or "center bottom" to shift the crop */
   text-align: center;
