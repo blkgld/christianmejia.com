@@ -1,0 +1,54 @@
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  min-height: 70vh;
+  background: transparent; /* Keep your existing hero background. */
+}
+.hero__h1 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(4rem, 12vw, 9rem);
+  line-height: 1;
+}
+/* The SVG sits in the same visual slot as the original heading. */
+.hero-morph {
+  display: block;
+  width: min(76vw, 760px);
+  height: auto;
+  max-height: 60vh;
+  overflow: visible;
+}
+.hero-morph__shape {
+  fill: #fff;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.hero-morph__steam,
+.hero-morph__notes,
+.hero-morph__logo-detail {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  pointer-events: none;
+}
+.hero-morph__note-fill { fill: #fff; opacity: 0; }
+.hero-morph__steam { stroke-width: 4; }
+.hero-morph__record-groove {
+  fill: none;
+  stroke: #111;
+  stroke-width: 2;
+  opacity: 0;
+}
+.hero__text { position: relative; z-index: 2; }
+@media (max-width: 600px) {
+  .hero-morph { width: 88vw; max-height: 48vh; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-morph__steam, .hero-morph__notes { display: none !important; }
+}
