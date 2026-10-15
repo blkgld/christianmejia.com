@@ -5,7 +5,7 @@
   display: grid;
   place-items: center;
   min-height: 70vh;
-  background: transparent; /* Keep your existing hero background. */
+
 }
 .hero__h1 {
   margin: 0;
