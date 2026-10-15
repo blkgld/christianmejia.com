@@ -1,84 +1,92 @@
 /*
- * Hero morph integration.
- * Load flubber before this file if you want path interpolation:
- * https://cdn.jsdelivr.net/npm/flubber@0.4.2/build/flubber.min.js
- *
- * If Flubber fails to load, this script reports a clear console error and
- * leaves the original heading in place instead of breaking the hero.
- */
+  Hero morph animation. No external libraries, CDNs, or network requests.
+  Uses matching SVG cubic paths and interpolates their coordinates directly.
+*/
 (() => {
   "use strict";
 
   function initHeroMorph() {
     const hero = document.querySelector(".hero");
     const heading = hero && hero.querySelector(".hero__h1");
-
-    if (!hero || !heading) {
-      console.error("Hero morph: couldn't find .hero and .hero__h1. Check the HTML class names.");
-      return;
-    }
-    if (!window.flubber || typeof window.flubber.interpolate !== "function") {
-      console.error("Hero morph: Flubber did not load. Check the Flubber script URL and network access.");
-      return;
-    }
-    if (hero.querySelector(".hero-morph")) {
-      return;
-    }
+    if (!hero || !heading || hero.querySelector(".hero-morph")) return;
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const NS = "http://www.w3.org/2000/svg";
 
-    // Each target is one closed silhouette. The detailed strokes are separate
-    // so the cup handle, record grooves, steam and logo can fade independently.
+    // Every silhouette has the same M + four cubic curves + Z structure.
+    // This lets the browser interpolate every coordinate without a third-party library.
     const SHAPES = {
-      mug: "M132 98 C154 72 219 65 300 65 C381 65 446 72 468 98 C468 170 438 223 383 246 C340 264 260 264 217 246 C162 223 132 170 132 98 Z",
-      record: "M300 22 C370 22 428 80 428 150 C428 220 370 278 300 278 C230 278 172 220 172 150 C172 80 230 22 300 22 Z",
-      logo: "M300 22 C370 22 428 80 428 150 C428 220 370 278 300 278 C230 278 172 220 172 150 C172 80 230 22 300 22 Z"
+      mug: [
+        130, 92,
+        175, 58, 425, 58, 470, 92,
+        472, 165, 435, 225, 370, 248,
+        330, 264, 270, 264, 230, 248,
+        165, 225, 128, 165, 130, 92
+      ],
+      record: [
+        300, 22,
+        370, 22, 428, 80, 428, 150,
+        428, 220, 370, 278, 300, 278,
+        230, 278, 172, 220, 172, 150,
+        172, 80, 230, 22, 300, 22
+      ],
+      logo: [
+        300, 22,
+        370, 22, 428, 80, 428, 150,
+        428, 220, 370, 278, 300, 278,
+        230, 278, 172, 220, 172, 150,
+        172, 80, 230, 22, 300, 22
+      ]
     };
+
+    function pathFrom(points) {
+      return `M ${points[0]} ${points[1]} ` +
+        `C ${points[2]} ${points[3]}, ${points[4]} ${points[5]}, ${points[6]} ${points[7]} ` +
+        `C ${points[8]} ${points[9]}, ${points[10]} ${points[11]}, ${points[12]} ${points[13]} ` +
+        `C ${points[14]} ${points[15]}, ${points[16]} ${points[17]}, ${points[18]} ${points[19]} ` +
+        `C ${points[20]} ${points[21]}, ${points[22]} ${points[23]}, ${points[24]} ${points[25]} Z`;
+    }
 
     const svg = document.createElementNS(NS, "svg");
     svg.setAttribute("class", "hero-morph");
     svg.setAttribute("viewBox", "0 0 600 300");
     svg.setAttribute("role", "img");
-    svg.setAttribute("aria-label", "Hola transforms into a coffee mug, a vinyl record, and the logo");
+    svg.setAttribute("aria-label", "Hola transforms into a coffee mug, a vinyl record, and the studio logo");
     svg.setAttribute("focusable", "false");
 
-    // Use the existing heading as accessible text. The letterforms are preserved
-    // as text at first, then fade into the first silhouette. This avoids trying
-    // to force a compound word path into a single-contour shape.
     const word = document.createElementNS(NS, "text");
     word.setAttribute("class", "hero-morph__word");
     word.setAttribute("x", "300");
     word.setAttribute("y", "190");
     word.setAttribute("text-anchor", "middle");
-    word.setAttribute("font-family", '"Playfair Display", Georgia, serif');
+    word.setAttribute("font-family", 'Georgia, "Times New Roman", serif');
     word.setAttribute("font-size", "150");
-    word.setAttribute("font-weight", "600");
+    word.setAttribute("font-weight", "700");
     word.textContent = heading.textContent.trim() || "Hola!";
     svg.appendChild(word);
 
-    const silhouette = document.createElementNS(NS, "path");
-    silhouette.setAttribute("class", "hero-morph__shape");
-    silhouette.setAttribute("d", SHAPES.mug);
-    silhouette.style.opacity = "0";
-    svg.appendChild(silhouette);
+    const shape = document.createElementNS(NS, "path");
+    shape.setAttribute("class", "hero-morph__shape");
+    shape.setAttribute("d", pathFrom(SHAPES.mug));
+    shape.style.opacity = "0";
+    svg.appendChild(shape);
 
-    const extras = document.createElementNS(NS, "g");
-    extras.innerHTML = `
+    const detail = document.createElementNS(NS, "g");
+    detail.innerHTML = `
       <g class="hero-morph__mug-detail">
-        <path d="M458 105 C510 91 531 115 527 145 C523 174 499 184 458 177"/>
-        <path d="M151 105 C207 126 393 126 449 105"/>
-        <path d="M151 105 C207 153 393 153 449 105" stroke-width="3"/>
+        <path d="M462 102 C515 90 531 117 527 145 C523 173 500 184 460 177"/>
+        <path d="M145 99 C205 124 395 124 455 99" stroke-width="3"/>
+        <path d="M252 94 C235 75 264 65 253 44 C248 35 251 29 258 22" class="hero-morph__steam"/>
       </g>
       <g class="hero-morph__steam">
         <path d="M252 94 C235 75 264 65 253 44 C248 35 251 29 258 22"/>
         <path d="M286 91 C269 72 300 62 288 41 C283 32 288 26 295 18"/>
         <path d="M320 94 C304 77 331 66 320 48"/>
       </g>
-      <g class="hero-morph__record-grooves">
+      <g class="hero-morph__record-detail">
         <circle cx="300" cy="150" r="105"/>
         <circle cx="300" cy="150" r="91"/>
-        <circle cx="300" cy="150" r="75"/>
+        <circle cx="300" cy="150" r="76"/>
         <circle cx="300" cy="150" r="24"/>
       </g>
       <g class="hero-morph__notes">
@@ -96,101 +104,91 @@
         <path d="M369 128 A72 72 0 0 0 236 110"/>
         <path class="slash" d="M254 194 L302 139 M287 194 L335 139 M320 194 L368 139"/>
       </g>`;
-    svg.appendChild(extras);
-
+    svg.appendChild(detail);
     heading.replaceWith(svg);
 
     const mugDetail = svg.querySelector(".hero-morph__mug-detail");
     const steam = svg.querySelector(".hero-morph__steam");
     const notes = svg.querySelector(".hero-morph__notes");
-    const grooves = svg.querySelector(".hero-morph__record-grooves");
+    const recordDetail = svg.querySelector(".hero-morph__record-detail");
     const logoDetail = svg.querySelector(".hero-morph__logo-detail");
-
-    const opacity = (el, value) => { el.style.opacity = String(Math.max(0, Math.min(1, value))); };
-    const ease = t => t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3)/2;
+    const setOpacity = (el, value) => { el.style.opacity = String(Math.max(0, Math.min(1, value))); };
+    const ease = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3)/2;
 
     function morph(from, to, duration, done) {
-      let interpolate;
-      try {
-        interpolate = window.flubber.interpolate(from, to, { maxSegmentLength: 3 });
-      } catch (error) {
-        console.error("Hero morph: Flubber couldn't interpolate the silhouette.", error);
-        done && done();
-        return;
-      }
       const start = performance.now();
       function frame(now) {
         const t = Math.min(1, (now - start) / duration);
-        silhouette.setAttribute("d", interpolate(ease(t)));
+        const e = ease(t);
+        const points = from.map((value, i) => value + (to[i] - value) * e);
+        shape.setAttribute("d", pathFrom(points));
         if (done) done(t);
         if (t < 1 && !reduceMotion) requestAnimationFrame(frame);
       }
       if (reduceMotion) {
-        silhouette.setAttribute("d", to);
+        shape.setAttribute("d", pathFrom(to));
         if (done) done(1);
-      } else {
-        requestAnimationFrame(frame);
-      }
+      } else requestAnimationFrame(frame);
     }
 
     if (reduceMotion) {
       word.style.display = "none";
-      silhouette.setAttribute("d", SHAPES.logo);
-      silhouette.style.opacity = "0";
-      opacity(logoDetail, 1);
+      shape.setAttribute("d", pathFrom(SHAPES.logo));
+      setOpacity(logoDetail, 1);
       return;
     }
 
     function loop() {
+      word.style.transition = "none";
       word.style.display = "";
       word.style.opacity = "1";
-      silhouette.style.opacity = "0";
-      silhouette.setAttribute("d", SHAPES.mug);
-      opacity(mugDetail, 0);
-      opacity(steam, 0);
-      opacity(notes, 0);
-      opacity(grooves, 0);
-      opacity(logoDetail, 0);
+      shape.style.transition = "none";
+      shape.style.opacity = "0";
+      shape.setAttribute("d", pathFrom(SHAPES.mug));
+      setOpacity(mugDetail, 0);
+      setOpacity(steam, 0);
+      setOpacity(notes, 0);
+      setOpacity(recordDetail, 0);
+      setOpacity(logoDetail, 0);
 
-      // Greeting fades into the mug. Mug, record and logo use true SVG path morphing.
       window.setTimeout(() => {
-        word.style.transition = "opacity 500ms ease";
+        word.style.transition = "opacity 450ms ease";
+        shape.style.transition = "opacity 450ms ease";
         word.style.opacity = "0";
-        silhouette.style.transition = "opacity 500ms ease";
-        silhouette.style.opacity = "1";
+        shape.style.opacity = "1";
+
         window.setTimeout(() => {
-          opacity(mugDetail, 1);
-          opacity(steam, 1);
+          setOpacity(mugDetail, 1);
+          setOpacity(steam, 1);
 
           window.setTimeout(() => {
-            opacity(mugDetail, 0);
-            opacity(steam, 0);
+            setOpacity(mugDetail, 0);
+            setOpacity(steam, 0);
             morph(SHAPES.mug, SHAPES.record, 1700, t => {
-              opacity(notes, t);
-              opacity(grooves, t);
+              setOpacity(notes, t);
+              setOpacity(recordDetail, t);
             });
 
             window.setTimeout(() => {
-              opacity(notes, 0);
-              morph(SHAPES.record, SHAPES.logo, 1800, t => {
-                opacity(grooves, 1 - t);
-                opacity(logoDetail, t);
+              morph(SHAPES.record, SHAPES.logo, 1700, t => {
+                setOpacity(recordDetail, 1 - t);
+                setOpacity(notes, 1 - t);
+                setOpacity(logoDetail, t);
               });
             }, 1750);
 
             window.setTimeout(() => {
-              // Hold on the logo, then transition back to the greeting.
               window.setTimeout(() => {
-                opacity(logoDetail, 0);
-                morph(SHAPES.logo, SHAPES.mug, 1400, t => {
-                  silhouette.style.opacity = String(1 - t);
+                morph(SHAPES.logo, SHAPES.mug, 1300, t => {
+                  shape.style.opacity = String(1 - t);
                   word.style.opacity = String(t);
+                  setOpacity(logoDetail, 1 - t);
                 });
-                window.setTimeout(loop, 1500);
-              }, 1200);
-            }, 3700);
+                window.setTimeout(loop, 1450);
+              }, 1400);
+            }, 3600);
           }, 1400);
-        }, 520);
+        }, 500);
       }, 1300);
     }
 
