@@ -138,11 +138,12 @@ a { color: inherit; }
   font-size: clamp(2.75rem, 7vw, 4.25rem);
  } 
 .hero__text {
-  margin: 0;
+  margin-bottom: 15px;
   max-width: 40rem;
   font-family: "Questrial", sans-serif;
   font-size: clamp(1.5rem, 2vw, 2.75rem);   /* scales with screen width */
   line-height: 1.2;
+  letter-spacing: 3px;
 }
 
 /* =====================================================
