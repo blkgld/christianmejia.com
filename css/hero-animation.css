@@ -5,7 +5,7 @@
 .hero .hero-animation {
   position: relative;
   width: min(76vw, 560px);
-  height: clamp(210px, 31vw, 340px);
+  height: clamp(210px, 25vw, 340px);
   margin-inline: auto;
   display: grid;
   place-items: center;

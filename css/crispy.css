@@ -122,7 +122,7 @@ a { color: inherit; }
   place-items: center;                      /* centers the text on the image */
   min-height: clamp(220px, 18vw, 380px);    /* hero height: smaller on phones, taller on desktop */
   margin-top: 15px;  /* pushes the hero down so it doesn't hide under the sticky header */
-  padding: 2rem var(--page-pad);
+  padding: 1.30rem var(--page-pad);
   background-color: #1a1a1a;                /* shows briefly while the image loads */
   background-image: url("../assets/images/Hero_Background_Dark.jpg");
   background-size: cover;                   /* fills the box and crops instead of stretching */
@@ -140,8 +140,8 @@ a { color: inherit; }
 .hero__text {
   margin: 0;
   max-width: 40rem;
-  font-family: var(--font-heading);
-  font-size: clamp(1.5rem, 4vw, 2.75rem);   /* scales with screen width */
+  font-family: "Questrial", sans-serif;
+  font-size: clamp(1.5rem, 2vw, 2.75rem);   /* scales with screen width */
   font-weight: 600;
   line-height: 1.2;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
@@ -150,7 +150,7 @@ a { color: inherit; }
 /* =====================================================
    B. BIO: This is a work in progress.
    ===================================================== */
-.bio { padding: clamp(2.5rem, 7vw, 5rem) var(--page-pad); }
+.bio { padding: clamp(2.5rem, 2.5vw, 5rem) var(--page-pad); }
 
 .bio__inner {
   max-width: var(--bio-width);
