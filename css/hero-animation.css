@@ -43,6 +43,7 @@
   object-fit: contain;
   filter: grayscale(1) brightness(0) invert(1);
 }
+/*
 .hero .hero-animation__stage--coffee .hero-animation__art {
   max-width: min(78vw, 470px);
   max-height: min(31vw, 280px);
@@ -50,7 +51,7 @@
 .hero .hero-animation__stage--record .hero-animation__art {
   max-width: min(64vw, 300px);
   max-height: min(34vw, 300px);
-}
+}*/
 .hero .hero-animation__stage--logo .hero-animation__art {
   max-width: min(60vw, 270px);
   max-height: min(32vw, 270px);
@@ -58,6 +59,7 @@
 
 /* Curved, taper-free steam. Position accounts for the transparent top margin
    in Coffee-cm.png, so the wisps sit just above the actual cup rim. */
+   
 .hero .hero-animation__steam {
   position: absolute;
   left: 50%;
