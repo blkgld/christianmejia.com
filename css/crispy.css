@@ -41,8 +41,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-p {text-wrap:pretty;}
-
 img { display: block; max-width: 100%; height: auto; }
 
 a { color: inherit; }
@@ -171,7 +169,10 @@ a { color: inherit; }
   font-weight: 600;
   font-style: normal;
 }
-.bio p { margin: 0 0 1.5rem; }
+.bio p { 
+  margin: 0 0 1.5rem; 
+  text-wrap: pretty; 
+}
 
 .bio__note {
   margin-top: 2.5rem;
