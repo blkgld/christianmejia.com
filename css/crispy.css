@@ -171,7 +171,7 @@ a { color: inherit; }
 }
 .bio p { 
   margin: 0 0 1.5rem; 
-  text-wrap: pretty; 
+  text-wrap: balance; 
 }
 
 .bio__note {
