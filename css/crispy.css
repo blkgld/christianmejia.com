@@ -41,6 +41,8 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+p {text-wrap:pretty;}
+
 img { display: block; max-width: 100%; height: auto; }
 
 a { color: inherit; }
