@@ -83,8 +83,9 @@ a { color: inherit; }
 }
 
 .logo img {
-  width: 150px;   /* logo.png is 240px wide so it stays sharp on retina screens */
+  width: 175px;   /* logo.png is 240px wide so it stays sharp on retina screens */
   height: auto;
+  margin: 15px 0 15px 0;
 }
 
 .site-nav ul {
