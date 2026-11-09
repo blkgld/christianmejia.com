@@ -62,8 +62,10 @@
 
     const stages = [
       makeStage("hola", ""),
+      /*
       makeStage("coffee", "Coffee-cm.png"),
       makeStage("record", "Record-cm.png"),
+      */
       makeStage("logo", "Logo-cm.png")
     ];
 
@@ -79,7 +81,7 @@
     if (reduceMotion) return;
 
     // A little more time on the logo lets it read as a deliberate signature.
-    const durations = [2100, 3000, 3000, 2800];
+    const durations = [3000, 2800];
     function advance() {
       window.setTimeout(() => {
         show((active + 1) % stages.length);
