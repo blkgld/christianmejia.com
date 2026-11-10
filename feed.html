@@ -1,41 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bluesky</title>
 
-  <!-- Load the embed library once -->
-  <script type="module"
-    src="https://cdn.jsdelivr.net/npm/bsky-embed/dist/bsky-embed.es.js"
-    async></script>
+  <title>Bluesky | Christian Mejia</title>
+  <meta name="description" content="Latest posts from Christian Mejia on Bluesky.">
+  <meta name="author" content="Christian Mejia">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://christianmejia.com/feed.html">
 
+  <!-- NOTE: there is intentionally NO Content-Security-Policy on this page.
+       The home page CSP only allows scripts, images and data from your own site,
+       which would block the Bluesky embed (script from jsDelivr, data from Bluesky). -->
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <link rel="icon" href="assets/images/cm_logo_og.png" type="image/png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Open+Sans:wght@600&amp;display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Questrial&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/crispy.css">
+
+  <!-- Bluesky embed library (a normal script, so no "async" needed) -->
+  <script type="module" src="https://cdn.jsdelivr.net/npm/bsky-embed/dist/bsky-embed.es.js"></script>
+
+  <!-- Page-only styles. You can move these into crispy.css later. -->
   <style>
-    body {
-      margin: 0;
-      font-family: system-ui, sans-serif;
-      background: #ffffff;
-      color: #000000;
-    }
-    main {
-      max-width: 600px;      /* keeps the feed a readable column */
+    .feed {
+      max-width: 600px;
       margin: 0 auto;
-      padding: 2rem 1rem;
+      padding: 2rem 1rem 4rem;
+    }
+    .feed h1 {
+      margin-top: 0;
     }
   </style>
 </head>
-<body>
-  <main>
-    <h1>Bluesky</h1>
 
-    <bsky-embed
-      username="mejiachris"
-      mode="light"
-      limit="10"
-      link-target="_blank"
-      link-image="true"
-      load-more="true">
-    </bsky-embed>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ============ HEADER (same as home page) ============ -->
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="logo" href="/" aria-label="Chris Mejia, home">
+        <img src="assets/images/chris-mejia-primary-black.svg" alt="Christian Mejia logo" width="240" height="90">
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          <li>
+            <a href="https://cmejia.me/galleries" target="_blank" rel="noopener noreferrer">
+              Photos
+            </a>
+          </li>
+          <li>
+            <a href="https://music.apple.com/us/playlist/sonidero/pl.u-JPAZEVVClLvDrJL" target="_blank" rel="noopener noreferrer">
+               Now Playing
+            </a>
+          </li>
+          <li>
+            <a href="https://cmejia.me/contact" target="_blank" rel="noopener noreferrer">
+               Contact Me
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ============ MAIN: BLUESKY FEED ============ -->
+  <main id="main">
+    <section class="feed">
+      <h1>Bluesky</h1>
+
+      <bsky-embed
+        username="mejiachris.bsky.social"
+        mode="light"
+        limit="10"
+        link-target="_blank"
+        link-image="true"
+        load-more="true">
+      </bsky-embed>
+    </section>
   </main>
+
+  <!-- ============ FOOTER (same as home page) ============ -->
+  <footer class="site-footer">
+    <div class="site-footer__grid">
+      <div class="site-footer__col site-footer__brand">
+        <img src="assets/images/cm_logo_og.png" alt="" width="32" height="32">
+        <p>© <span id="year">2026</span> Christian Mejia</p>
+      </div>
+
+      <div class="site-footer__col">
+        <h2>Links</h2>
+        <ul class="footer-icons">
+          <li>
+            <a href="https://cmejia.me/" target="_blank" rel="noopener noreferrer">
+              <img src="assets/icons/vsco.svg" alt="VSCO" width="32" height="32">
+            </a>
+          </li>
+          <li>
+            <a href="https://music.apple.com/us/playlist/sonidero/pl.u-JPAZEVVClLvDrJL" target="_blank" rel="noopener noreferrer">
+              <img src="assets/icons/apple-music.svg" alt="Apple Music" width="32" height="32">
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <h2>Get in touch!</h2>
+        <ul class="footer-icons">
+          <li>
+            <a href="https://cmejia.me/contact" target="_blank" rel="noopener noreferrer">
+              <img src="assets/icons/mail.svg" alt="Email me" width="32" height="32">
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="bio__note"><strong>Note</strong>: This site is intentionally simple for now. It’s my playground for keeping my coding skills sharp, so please excuse the dust.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./js/year.js" defer></script>
 </body>
 </html>
