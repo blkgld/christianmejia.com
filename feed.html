@@ -1,66 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bluesky</title>
 
-  <!-- ============ SEARCH (SEO) ============ -->
-  <title>Christian Mejia | Visual Designer &amp; Coffee Lover</title>
-  <meta name="description" content="Chris Mejia: A freelance front-end web developer and graphic designer with 25+ years experience. This is his working portfolio playground">
-  <meta name="author" content="Christian Mejia">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://christianmejia.com/">
+  <!-- Load the embed library once -->
+  <script type="module"
+    src="https://cdn.jsdelivr.net/npm/bsky-embed/dist/bsky-embed.es.js"
+    async></script>
 
-  <!-- Social sharing previews (Open Graph + Twitter/X) -->
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Christian Mejia">
-  <meta property="og:title" content="Christian Mejia">
-  <meta property="og:description" content="Chris Mejia: A freelance front-end web developer and graphic designer with 25+ years experience. This is his working portfolio playground">
-  <meta property="og:url" content="https://christianmejia.com/">
-  <meta property="og:image" content="https://christianmejia.com/assets/images/cm_logo_og.png">
-  <meta name="twitter:card" content="summary_large_image">
-
-  <!-- Structured data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Christian Mejia",
-    "alternateName": "Chris Mejia",
-    "url": "https://christianmejia.com/",
-    "jobTitle": "Freelance Web Specialist and Graphic Designer"
-  }
-  </script>
-
-  <!-- animation added to frame-src below. -->
-  <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    img-src 'self' data:;
-    style-src 'self' https://fonts.googleapis.com;
-    font-src https://fonts.gstatic.com;
-    script-src 'self';
-    frame-src 'self';
-    object-src 'none';
-    base-uri 'self';
-    form-action 'self';">
-  <meta name="referrer" content="strict-origin-when-cross-origin">
-
-  <!-- ============ ICONS + STYLES ============ -->
-  <link rel="icon" href="assets/images/cm_logo_og.png" type="image/png">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Open+Sans:wght@600&amp;display=swap">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Questrial&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./css/crispy.css">
-  <link rel="stylesheet" href="./css/hero-animation.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #111;
+      color: #eee;
+    }
+    main {
+      max-width: 600px;      /* keeps the feed a readable column */
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+  </style>
 </head>
+<body>
+  <main>
+    <h1>My Bluesky Feed</h1>
 
-  <script type="module" src="https://cdn.jsdelivr.net/npm/bsky-embed/dist/bsky-embed.es.js" async></script>
-  <bsky-embed
-    username="mejiachris"
-    mode="dark"
-    limit="5"
-  >
-  </bsky-embed>
+    <bsky-embed
+      username="mejiachris"
+      mode="dark"
+      limit="10"
+      link-target="_blank"
+      link-image="true"
+      load-more="true">
+    </bsky-embed>
+  </main>
+</body>
 </html>
