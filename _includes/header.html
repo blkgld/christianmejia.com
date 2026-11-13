@@ -1,0 +1,37 @@
+<!-- ============ HEADER + NAV (shared by every page) ============ -->
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="logo" href="/" aria-label="Chris Mejia, home">
+      <img src="/assets/images/chris-mejia-primary-black.svg" alt="Christian Mejia logo" width="240" height="90">
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li>
+          <a href="/"{% if page.url == '/' %} aria-current="page"{% endif %}>Home</a>
+        </li>
+        <li>
+          <a href="/about.html"{% if page.url == '/about.html' %} aria-current="page"{% endif %}>About</a>
+        </li>
+        <li class="has-submenu">
+          <details class="nav-dropdown">
+            <summary>Links</summary>
+            <ul class="submenu">
+              <li>
+                <a href="/feed.html"{% if page.url == '/feed.html' %} aria-current="page"{% endif %}>Feed</a>
+              </li>
+              <li>
+                <a href="https://cmejia.me/galleries" target="_blank" rel="noopener noreferrer">Photos</a>
+              </li>
+              <li>
+                <a href="https://music.apple.com/us/playlist/sonidero/pl.u-JPAZEVVClLvDrJL" target="_blank" rel="noopener noreferrer">Music</a>
+              </li>
+            </ul>
+          </details>
+        </li>
+        <li>
+          <a href="https://cmejia.me/contact" target="_blank" rel="noopener noreferrer">Contact</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>

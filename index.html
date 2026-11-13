@@ -1,3 +1,5 @@
+---
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,46 +48,20 @@
   <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <!-- ============ ICONS + STYLES ============ -->
-  <link rel="icon" href="assets/images/cm_logo_og.png" type="image/png">
+  <link rel="icon" href="/assets/images/cm_logo_og.png" type="image/png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Open+Sans:wght@600&amp;display=swap">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Questrial&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./css/crispy.css">
-  <link rel="stylesheet" href="./css/hero-animation.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Questrial&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/crispy.css">
+  <link rel="stylesheet" href="/css/hero-animation.css">
 </head>
 
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- ============ HEADER (sticky) ============ -->
-  <header class="site-header">
-    <div class="site-header__inner">
-      <a class="logo" href="/" aria-label="Chris Mejia, home">
-        <img src="assets/images/chris-mejia-primary-black.svg" alt="Christian Mejia logo" width="240" height="90">
-      </a>
-      <nav class="site-nav" aria-label="Main">
-        <ul>
-          <li>
-            <a href="https://cmejia.me/galleries" target="_blank" rel="noopener noreferrer">
-              Photos
-            </a>
-          </li>
-          <li>
-            <a href="https://music.apple.com/us/playlist/sonidero/pl.u-JPAZEVVClLvDrJL" target="_blank" rel="noopener noreferrer">
-               Now Playing
-            </a>
-          </li>
-          <li>
-            <a href="https://cmejia.me/contact" target="_blank" rel="noopener noreferrer">
-               Contact Me
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  {% include header.html %}
 
   <main id="main">
 
@@ -117,7 +93,7 @@
       <!-- animation URL (or a local file such as animation/index.html).
            "sandbox" locks the embed down so it can't touch the rest of your page.-->
       <iframe
-        src="assets/anime/animatedwalk.html"
+        src="/assets/anime/animatedwalk.html"
         title="Animation"
         loading="lazy"
         sandbox="allow-scripts"
@@ -125,45 +101,9 @@
     </section>
   </main>
 
-  <!-- ============ FOOTER (full width, 3 columns) ============ -->
-<footer class="site-footer">
-  <div class="site-footer__grid">   
-<div class="site-footer__col site-footer__brand">
-  <img src="assets/images/cm_logo_og.png" alt="" width="32" height="32">
-  <p>© <span id="year">2026</span> Christian Mejia</p>
-</div>
-      <div class="site-footer__col">
-        <h2>Links</h2>
- <ul class="footer-icons">
-  <li>
-    <a href="https://cmejia.me/" target="_blank" rel="noopener noreferrer">
-      <img src="assets/icons/vsco.svg" alt="VSCO" width="32" height="32">
-    </a>
-  </li>
-  <li>
-    <a href="https://music.apple.com/us/playlist/sonidero/pl.u-JPAZEVVClLvDrJL" target="_blank" rel="noopener noreferrer">
-      <img src="assets/icons/apple-music.svg" alt="Apple Music" width="32" height="32">
-    </a>
-  </li>
-  </ul>
-      </div>
+  {% include footer.html %}
 
-      <div class="site-footer__col">
-        <h2>Get in touch!</h2>
-        <ul class="footer-icons">
-  <li>
-    <a href="https://cmejia.me/contact" target="_blank" rel="noopener noreferrer">
-      <img src="assets/icons/mail.svg" alt="Email me" width="32" height="32">
-    </a>
-  </li>
-</ul>
-      </div>
-      <div><p class="bio__note"><strong>Note</strong>: This site is intentionally simple for now. It’s my playground for keeping my coding skills sharp, so please excuse the dust.</p></div>
-    </div>
-  </div>
-</div>  
-</footer>
-  <script src="./js/year.js" defer></script>
-  <script src="./js/hero-animation.js"></script>
+  <script src="/js/year.js" defer></script>
+  <script src="/js/hero-animation.js"></script>
 </body>
 </html>

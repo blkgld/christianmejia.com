@@ -310,3 +310,46 @@ a { color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
+
+/* ===== Navigtion Sub-menu Drop-down ===== */
+.nav-dropdown {
+  position: relative;
+}
+.nav-dropdown summary {
+  cursor: pointer;
+  list-style: none;      /* hides the default triangle */
+  font: inherit;
+  color: inherit;
+}
+.nav-dropdown summary::-webkit-details-marker {
+  display: none;         /* hides the triangle in Safari */
+}
+.nav-dropdown summary::after {
+  content: " \25BE";     /* small down arrow */
+}
+.nav-dropdown[open] summary::after {
+  content: " \25B4";     /* small up arrow */
+}
+.site-nav .submenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 20;
+  display: block;        /* stack vertically even if the main nav is a row */
+  min-width: 10rem;
+  margin: 0;
+  padding: 0.5rem 0;
+  list-style: none;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.site-nav .submenu li {
+  display: block;
+  margin: 0;
+}
+.site-nav .submenu a {
+  display: block;
+  padding: 0.5rem 1rem;
+  white-space: nowrap;
+}
