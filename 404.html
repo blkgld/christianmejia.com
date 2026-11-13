@@ -1,0 +1,59 @@
+---
+permalink: /404.html
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Page not found | Christian Mejia</title>
+  <meta name="description" content="Sorry, this page could not be found.">
+  <meta name="author" content="Christian Mejia">
+  <!-- Keep error pages out of search results -->
+  <meta name="robots" content="noindex, follow">
+
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    img-src 'self' data:;
+    style-src 'self' https://fonts.googleapis.com;
+    font-src https://fonts.gstatic.com;
+    script-src 'self';
+    frame-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <link rel="icon" href="/assets/images/cm_logo_og.png" type="image/png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Open+Sans:wght@600&amp;display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Questrial&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/crispy.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  {% include header.html %}
+
+  <main id="main">
+    <section class="bio">
+      <div class="bio__inner">
+        <h1>404</h1>
+        
+        <h2>This page is on a coffee break.</h2>
+        <img src="/assets/images/404errorcoffee.png" alt="404 error coffee cup" width="240" height="240">
+        <p>The page you're looking for doesn't exist, or it has moved.</p>
+        <p>Check the address for typos, or head back and start again from the <a href="/">home page</a>.  </p>
+      </div>
+    </section>
+  </main>
+
+  {% include footer.html %}
+
+  <script src="/js/year.js" defer></script>
+</body>
+</html>
