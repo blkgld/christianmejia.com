@@ -1,63 +1,102 @@
+---
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Record Collection</title>
-<style>
-:root{
-  box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
-  --bg:#ffffff; --head:#161616; --panel:#ffffff; --ink:#161616; --muted:#6b6b66; --row:#efefec;
-}
-*{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--head);font-family:-apple-system,"Helvetica Neue",Arial,sans-serif}
-header{padding:28px clamp(16px,4vw,48px) 8px}
-h1{margin:0;font-size:15px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
-header p{margin:6px 0 0;color:#6b6b66;font-size:13px}
-#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:28px 24px;padding:24px clamp(16px,4vw,48px) 80px}
-.tile{all:unset;display:block;cursor:pointer;aspect-ratio:1;opacity:0;animation:in .6s ease forwards}
-.tile:nth-child(3n+2){margin-top:34px}
-.tile img{width:100%;height:100%;display:block;border-radius:3px;filter:grayscale(1);transition:filter .35s,transform .35s,opacity .3s;box-shadow:0 6px 18px #0003}
-.tile:hover img,.tile:focus-visible img{filter:grayscale(0);transform:scale(1.04)}
-.tile:focus-visible{outline:2px solid #161616;outline-offset:4px}
-.tile.sel img{opacity:.2}
-@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-.fly{position:fixed;z-index:30;border-radius:3px;pointer-events:none;object-fit:cover;box-shadow:0 10px 30px #0004}
-#drawer{position:fixed;z-index:20;top:0;right:0;bottom:0;width:min(380px,100%);background:var(--panel);color:var(--ink);transform:translateX(105%);transition:transform .45s cubic-bezier(.2,.8,.2,1);padding:calc(24px + env(safe-area-inset-top,0px)) 24px calc(24px + env(safe-area-inset-bottom,0px));overflow-y:auto;box-shadow:-10px 0 40px #0002;border-left:1px solid #e5e5e2}
-#drawer.open{transform:none}
-#drawer.nt{transition:none}
-#dImg{width:100%;aspect-ratio:1;display:block;border-radius:4px;background:var(--row)}
-#drawer h2{margin:18px 0 4px;font-size:22px;line-height:1.2}
-#dArtist{margin:0 0 18px;color:var(--muted)}
-dl{margin:0;display:grid;gap:8px}
-dl div{display:flex;justify-content:space-between;background:var(--row);padding:11px 14px;border-radius:8px;font-size:14px}
-#dLink{display:block;margin-top:14px;font-size:13px;color:var(--muted);text-align:center}
-#dLink[hidden]{display:none}
-dt{color:var(--muted)} dd{margin:0;font-weight:500}
-#close{position:absolute;top:calc(10px + env(safe-area-inset-top,0px));right:12px;z-index:2;width:34px;height:34px;border:0;border-radius:50%;background:#000a;color:#fff;font-size:18px;cursor:pointer}
-@media (max-width:640px){
-  #drawer{top:auto;width:100%;height:68vh;transform:translateY(105%);border-radius:16px 16px 0 0;box-shadow:0 -10px 40px #0002;border-top:1px solid #e5e5e2}
-  #drawer.open{transform:none}
-  #dImg{width:55%;margin:0 auto}
-  #drawer h2,#dArtist{text-align:center}
-}
-@media (prefers-reduced-motion:reduce){.tile{animation:none;opacity:1}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Record Collection | Christian Mejia</title>
+  <meta name="description" content="Christian Mejia's vinyl record collection, pulled from Discogs.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Open+Sans:wght@600&amp;display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Questrial&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/crispy.css">
+
+  <style>
+    /* Gallery-only styles. Colors, fonts and spacing come from crispy.css. */
+    .gallery-intro { padding-bottom: 0; }
+    .gallery-intro .bio__inner { margin: 0; max-width: none; }   /* left-align with the grid */
+    .gallery-intro h1 { margin-bottom: 0.75rem; }
+
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 28px 24px;
+      padding: 2rem var(--page-pad) 5rem;
+    }
+    .tile { all: unset; display: block; cursor: pointer; aspect-ratio: 1; opacity: 0; animation: in .6s ease forwards; }
+    .tile:nth-child(3n+2) { margin-top: 34px; }
+    .tile img { width: 100%; height: 100%; display: block; border-radius: 2px; filter: grayscale(1); transition: filter .35s, transform .35s, opacity .3s; box-shadow: 0 6px 18px #0003; }
+    .tile:hover img, .tile:focus-visible img { filter: grayscale(0); transform: scale(1.04); }
+    .tile:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }   /* all:unset removes the site focus ring, so it is restored here */
+    .tile.sel img { opacity: .2; }
+    @keyframes in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+    .fly { position: fixed; z-index: 30; border-radius: 2px; pointer-events: none; object-fit: cover; box-shadow: 0 10px 30px #0004; }
+
+    /* Drawer slides in below the sticky header */
+    #drawer {
+      position: fixed; z-index: 20; top: var(--header-height); right: 0; bottom: 0;
+      width: min(380px, 100%);
+      background: var(--bg); color: var(--text);
+      border-left: 1px solid var(--line);
+      box-shadow: -10px 0 40px #0002;
+      padding: 24px 24px calc(24px + env(safe-area-inset-bottom, 0px));
+      overflow-y: auto;
+      transform: translateX(105%);
+      transition: transform .45s cubic-bezier(.2, .8, .2, 1);
+    }
+    #drawer.open { transform: none; }
+    #drawer.nt { transition: none; }
+    #dImg { width: 100%; aspect-ratio: 1; display: block; border-radius: 2px; background: #f3f3f3; }
+    #drawer h2 { margin: 18px 0 4px; font-family: "Playfair Display", serif; font-weight: 600; font-size: 1.6rem; line-height: 1.2; }
+    #dArtist { margin: 0 0 18px; color: var(--muted); }
+    dl { margin: 0; display: grid; gap: 8px; }
+    dl div { display: flex; justify-content: space-between; gap: 1rem; background: #f3f3f3; padding: 11px 14px; border-radius: 4px; font-size: .9rem; }
+    dt { color: var(--muted); font-family: "Questrial", sans-serif; }
+    dd { margin: 0; font-weight: 500; text-align: right; }
+    #dLink { display: block; margin-top: 14px; font-size: .85rem; color: var(--muted); text-align: center; }
+    #dLink[hidden] { display: none; }
+    #close { position: absolute; top: 10px; right: 12px; z-index: 2; width: 34px; height: 34px; border: 0; border-radius: 50%; background: #000a; color: #fff; font-size: 18px; cursor: pointer; }
+
+    @media (max-width: 720px) {
+      #drawer { top: auto; width: 100%; height: 68vh; transform: translateY(105%); border-left: 0; border-top: 1px solid var(--line); border-radius: 16px 16px 0 0; box-shadow: 0 -10px 40px #0002; }
+      #drawer.open { transform: none; }
+      #dImg { width: 55%; margin: 0 auto; }
+      #drawer h2, #dArtist { text-align: center; }
+    }
+    @media (prefers-reduced-motion: reduce) { .tile { animation: none; opacity: 1; } }
+  </style>
 </head>
 <body>
-<header><h1>Record Collection</h1><p>Hover or click a cover for colour.</p></header>
-<main id="grid"></main>
-<aside id="drawer" aria-label="Album details" aria-hidden="true">
-  <button id="close" aria-label="Close">×</button>
-  <img id="dImg" alt="">
-  <h2 id="dTitle"></h2>
-  <p id="dArtist"></p>
-  <dl id="dMeta"></dl>
-  <a id="dLink" target="_blank" rel="noopener" hidden>View on Discogs ↗</a>
-</aside>
-<script>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  {% include header.html %}
+
+  <main id="main">
+    <section class="bio gallery-intro">
+      <div class="bio__inner">
+        <h1>Record Collection</h1>
+        <p>Hover or click a cover for colour.</p>
+      </div>
+    </section>
+    <div id="grid"></div>
+  </main>
+
+  <aside id="drawer" aria-label="Album details" aria-hidden="true">
+    <button id="close" aria-label="Close">×</button>
+    <img id="dImg" alt="">
+    <h2 id="dTitle"></h2>
+    <p id="dArtist"></p>
+    <dl id="dMeta"></dl>
+    <a id="dLink" target="_blank" rel="noopener" hidden>View on Discogs ↗</a>
+  </aside>
+
+  {% include footer.html %}
+
+  <script>
 // Swap this array for your Discogs export (collection.json) later.
 const SAMPLE=[
 ["Midnight Static","The Low Hours",1978,"Velvet Groove","Jazz",8],
