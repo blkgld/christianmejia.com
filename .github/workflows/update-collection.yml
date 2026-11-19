@@ -1,0 +1,39 @@
+# .github/workflows/update-collection.yml
+# Refreshes collection.json from Discogs every night, and whenever you press "Run workflow".
+# Your Discogs token lives in GitHub's encrypted secrets, never in this file or on the website.
+
+name: Update record collection
+
+on:
+  schedule:
+    - cron: "17 6 * * *"   # every day at 06:17 UTC (change the numbers to change the time)
+  workflow_dispatch:        # adds a manual "Run workflow" button in the Actions tab
+
+# The job may only change files in this repo. It gets no other permissions.
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the repo files
+        uses: actions/checkout@v5
+
+      - name: Fetch collection from Discogs
+        env:
+          DISCOGS_USER: ${{ secrets.DISCOGS_USER }}
+          DISCOGS_TOKEN: ${{ secrets.DISCOGS_TOKEN }}
+        run: node fetch-collection.mjs
+
+      - name: Save collection.json only if it changed
+        run: |
+          if git diff --quiet -- collection.json; then
+            echo "No changes to the collection."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add collection.json
+            git commit -m "Update record collection"
+            git push
+          fi
