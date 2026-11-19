@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Record Collection</title>
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#ffffff; --head:#161616; --panel:#ffffff; --ink:#161616; --muted:#6b6b66; --row:#efefec;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--head);font-family:-apple-system,"Helvetica Neue",Arial,sans-serif}
+header{padding:28px clamp(16px,4vw,48px) 8px}
+h1{margin:0;font-size:15px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+header p{margin:6px 0 0;color:#6b6b66;font-size:13px}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:28px 24px;padding:24px clamp(16px,4vw,48px) 80px}
+.tile{all:unset;display:block;cursor:pointer;aspect-ratio:1;opacity:0;animation:in .6s ease forwards}
+.tile:nth-child(3n+2){margin-top:34px}
+.tile img{width:100%;height:100%;display:block;border-radius:3px;filter:grayscale(1);transition:filter .35s,transform .35s,opacity .3s;box-shadow:0 6px 18px #0003}
+.tile:hover img,.tile:focus-visible img{filter:grayscale(0);transform:scale(1.04)}
+.tile:focus-visible{outline:2px solid #161616;outline-offset:4px}
+.tile.sel img{opacity:.2}
+@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.fly{position:fixed;z-index:30;border-radius:3px;pointer-events:none;object-fit:cover;box-shadow:0 10px 30px #0004}
+#drawer{position:fixed;z-index:20;top:0;right:0;bottom:0;width:min(380px,100%);background:var(--panel);color:var(--ink);transform:translateX(105%);transition:transform .45s cubic-bezier(.2,.8,.2,1);padding:calc(24px + env(safe-area-inset-top,0px)) 24px calc(24px + env(safe-area-inset-bottom,0px));overflow-y:auto;box-shadow:-10px 0 40px #0002;border-left:1px solid #e5e5e2}
+#drawer.open{transform:none}
+#drawer.nt{transition:none}
+#dImg{width:100%;aspect-ratio:1;display:block;border-radius:4px;background:var(--row)}
+#drawer h2{margin:18px 0 4px;font-size:22px;line-height:1.2}
+#dArtist{margin:0 0 18px;color:var(--muted)}
+dl{margin:0;display:grid;gap:8px}
+dl div{display:flex;justify-content:space-between;background:var(--row);padding:11px 14px;border-radius:8px;font-size:14px}
+#dLink{display:block;margin-top:14px;font-size:13px;color:var(--muted);text-align:center}
+#dLink[hidden]{display:none}
+dt{color:var(--muted)} dd{margin:0;font-weight:500}
+#close{position:absolute;top:calc(10px + env(safe-area-inset-top,0px));right:12px;z-index:2;width:34px;height:34px;border:0;border-radius:50%;background:#000a;color:#fff;font-size:18px;cursor:pointer}
+@media (max-width:640px){
+  #drawer{top:auto;width:100%;height:68vh;transform:translateY(105%);border-radius:16px 16px 0 0;box-shadow:0 -10px 40px #0002;border-top:1px solid #e5e5e2}
+  #drawer.open{transform:none}
+  #dImg{width:55%;margin:0 auto}
+  #drawer h2,#dArtist{text-align:center}
+}
+@media (prefers-reduced-motion:reduce){.tile{animation:none;opacity:1}}
+</style>
+</head>
+<body>
+<header><h1>Record Collection</h1><p>Hover or click a cover for colour.</p></header>
+<main id="grid"></main>
+<aside id="drawer" aria-label="Album details" aria-hidden="true">
+  <button id="close" aria-label="Close">×</button>
+  <img id="dImg" alt="">
+  <h2 id="dTitle"></h2>
+  <p id="dArtist"></p>
+  <dl id="dMeta"></dl>
+  <a id="dLink" target="_blank" rel="noopener" hidden>View on Discogs ↗</a>
+</aside>
+<script>
+// Swap this array for your Discogs export (collection.json) later.
+const SAMPLE=[
+["Midnight Static","The Low Hours",1978,"Velvet Groove","Jazz",8],
+["Paper Moons","Ada Verne",1983,"Orchid Sound","Synth-pop",10],
+["Dust & Neon","Ghost Harbor",1991,"Cold Pine","Shoegaze",9],
+["Copper Rain","Marlow Quartet",1966,"Blue Lantern","Jazz",6],
+["Slow Fire","The Ember Choir",1974,"Redwood","Soul",11],
+["Tidewater","Iris Kane",1989,"Harbor Lane","Folk",9],
+["Glass Garden","Pale Season",1996,"Static Bloom","Dream pop",12],
+["Afterglow","Night Ferry",1985,"Orchid Sound","New wave",10],
+["Salt Road","Tomas Reyes",1971,"Dusty Reel","Country",10],
+["Violet Hour","Lune",2004,"Static Bloom","Electronic",8],
+["Brass Heart","The Kingfishers",1969,"Redwood","Rock",9],
+["Low Tide Radio","Ada Verne",1987,"Orchid Sound","Synth-pop",9],
+["Ninth Window","Marlow Quartet",1972,"Blue Lantern","Jazz",5],
+["Honey Static","Pale Season",1993,"Static Bloom","Shoegaze",11],
+["Northern Lights Motel","Ghost Harbor",1999,"Cold Pine","Indie",12],
+["Velvet Engine","The Low Hours",1981,"Velvet Groove","Funk",8],
+["Small Hours","Iris Kane",1992,"Harbor Lane","Folk",10],
+["Orbit Cafe","Lune",2011,"Static Bloom","Ambient",7]
+];
+const $=id=>document.getElementById(id);
+const grid=$("grid"),drawer=$("drawer"),dImg=$("dImg");
+const still=matchMedia("(prefers-reduced-motion:reduce)").matches;
+
+// Placeholder covers drawn as tiny SVGs (no external images needed)
+function cover(r,i){
+  const h=(i*47)%360,t=r.title.replace(/&/g,"+").slice(0,22);
+  const s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><rect width="300" height="300" fill="hsl(${h},55%,${30+(i%4)*7}%)"/><circle cx="${90+(i*37)%120}" cy="${100+(i*23)%90}" r="${60+(i*11)%40}" fill="hsl(${(h+40)%360},70%,60%)" opacity=".85"/><rect x="0" y="${200+(i%3)*10}" width="300" height="100" fill="hsl(${(h+200)%360},45%,14%)"/><text x="16" y="262" font-family="Arial" font-weight="700" font-size="20" fill="#fff">${t}</text><text x="16" y="284" font-family="Arial" font-size="13" fill="#fffa">${r.artist}</text></svg>`;
+  return "data:image/svg+xml,"+encodeURIComponent(s);
+}
+
+function build(){
+  RECORDS.forEach((r,i)=>{
+    const b=document.createElement("button");
+    b.className="tile";
+    b.style.animationDelay=(Math.random()*0.9).toFixed(2)+"s";
+    b.setAttribute("aria-label",r.title+" by "+r.artist);
+    b.innerHTML=`<img alt="" src="${r.cover?esc(r.cover):cover(r,i)}" loading="lazy" referrerpolicy="no-referrer">`;
+    b.onclick=()=>open(i,b);
+    grid.append(b);
+  });
+}
+
+let cur=null;
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function fill(r,src){
+  dImg.src=src; dImg.alt=r.title+" cover";
+  $("dTitle").textContent=r.title; $("dArtist").textContent=r.artist;
+  const rows=[["Genre",r.genre||"—"],["Released",r.year||"—"],["Label",r.label||"—"],["Cat. no.",r.catno||"—"],["Format",r.format||"—"]];
+  $("dMeta").innerHTML=rows.map(x=>`<div><dt>${x[0]}</dt><dd>${esc(x[1])}</dd></div>`).join("");
+  const l=$("dLink"); l.hidden=!r.url; if(r.url)l.href=r.url;
+}
+function open(i,tile){
+  if(cur===tile)return;
+  const img=tile.querySelector("img"),from=img.getBoundingClientRect();
+  fill(RECORDS[i],RECORDS[i].cover||img.src);
+  // measure where the drawer image will end up, without animating the drawer
+  if(!drawer.classList.contains("open")){
+    drawer.classList.add("nt","open");
+    var to=dImg.getBoundingClientRect();
+    drawer.classList.remove("open"); void drawer.offsetWidth;
+    drawer.classList.remove("nt"); drawer.classList.add("open");
+  } else { var to=dImg.getBoundingClientRect(); }
+  drawer.setAttribute("aria-hidden","false");
+  if(cur)cur.classList.remove("sel");
+  cur=tile;
+  if(still)return;
+  tile.classList.add("sel");
+  dImg.style.visibility="hidden";
+  const c=img.cloneNode();
+  c.className="fly";
+  Object.assign(c.style,{left:from.left+"px",top:from.top+"px",width:from.width+"px",height:from.height+"px",filter:"grayscale(1)"});
+  document.body.append(c); void c.offsetWidth;
+  c.style.transition="all .55s cubic-bezier(.2,.8,.2,1)";
+  Object.assign(c.style,{left:to.left+"px",top:to.top+"px",width:to.width+"px",height:to.height+"px",filter:"none"});
+  setTimeout(()=>{dImg.style.visibility="";c.remove()},600);
+}
+function close(){
+  drawer.classList.remove("open"); drawer.setAttribute("aria-hidden","true");
+  if(cur)cur.classList.remove("sel"); cur=null;
+}
+$("close").onclick=close;
+addEventListener("keydown",e=>{if(e.key==="Escape")close()});
+
+// Load collection.json (made by fetch-collection.mjs); fall back to sample data if missing
+const toObj=r=>({title:r[0],artist:r[1],year:r[2],label:r[3],genre:r[4],format:"Vinyl, LP",catno:"",cover:"",url:""});
+let RECORDS=[];
+fetch("collection.json")
+  .then(r=>{if(!r.ok)throw 0;return r.json()})
+  .then(d=>{RECORDS=d})
+  .catch(()=>{RECORDS=SAMPLE.map(toObj)})
+  .then(build);
+</script>
+</body>
+</html>
