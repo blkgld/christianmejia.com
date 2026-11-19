@@ -66,6 +66,12 @@
       #drawer.open { transform: none; }
       #dImg { width: 55%; margin: 0 auto; }
       #drawer h2, #dArtist { text-align: center; }
+  /* Phone only: show the Discogs link right under the artist name */
+      #drawer { display: flex; flex-direction: column; }
+      #drawer > * { flex-shrink: 0; }
+      #dArtist { margin-bottom: 4px; }
+      #dLink { order: 1; margin: 0 0 18px; }
+      #dMeta { order: 2; }
     }
     @media (prefers-reduced-motion: reduce) { .tile { animation: none; opacity: 1; } }
   </style>
