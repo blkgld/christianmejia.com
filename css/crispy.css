@@ -191,7 +191,7 @@ a { color: inherit; }
 .music { padding: clamp(2.5rem, 4.5vw, 5rem) var(--page-pad); }
 
 .music__inner {
-  max-width: var(--bio-width);
+  max-width: var(--music-width);
   margin: 0 auto;
 }
 
@@ -212,7 +212,7 @@ a { color: inherit; }
   margin: 0 0 1.5rem;  
 }
 
-.bio__note {
+.music__note {
   margin-top: 2.5rem;
   font-size: 0.9rem;
   font-style: italic;
