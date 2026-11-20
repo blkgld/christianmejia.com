@@ -1,27 +1,85 @@
-HERO MORPH FIX, NO CDN DEPENDENCY
+CHRISTIANMEJIA.COM
 
-This version removes Flubber completely. The animation uses local JavaScript and interpolates matching SVG path coordinates itself. It makes no external script requests, so it works with a script-src 'self' policy.
+This is the source code for my personal website, live at
+https://christianmejia.com
 
-Install:
-1. Replace css/hero-morph.css with this package's file.
-2. Replace js/hero-morph.js with this package's file.
-3. Keep your existing crispy.css and hero HTML unchanged.
-4. Remove the old Flubber CDN script reference entirely.
-5. Load your own scripts just before </body>:
+I'm a web specialist and graphic designer with 25+ years of experience,
+and I'm working toward opening a small listening café: good coffee, vinyl
+records, and a vintage Hi-Fi system. This site is where that story, my
+photos, my music and my links live.
 
-<script src="./js/hero-morph.js"></script>
 
-Keep the stylesheet order:
-<link rel="stylesheet" href="./css/crispy.css">
-<link rel="stylesheet" href="./css/hero-morph.css">
+ABOUT THE SITE
+--------------
+A simple, clean, hand-built static site. No frameworks, no build step,
+and no external script dependencies.
 
-Your existing markup remains:
-<section class="hero">
-  <p class="hero__h1">Hola!</p>
-  <p class="hero__text">Coffee · Music · Creative</p>
-</section>
+  - Sticky header with logo (top left) and navigation (right)
+  - Full-width hero with an editable text greeting on top
+  - Bio section: "Hola!" intro and the listening café idea
+  - Bluesky microblog feed page
+  - Record Archive page that displays current record collection on personal Discogs account
+  - Shared header and footer
+  - Full-width, 3-column footer
 
-Important:
-- This does not change .hero height or background styles.
-- The greeting fades into the mug. The mug-to-record and record-to-logo silhouettes morph using matching SVG path coordinates.
-- The logo details are still a stylized approximation. Swap in your exact logo SVG paths when available.
+Navigation: Home, About, Links (Feed, Photos, Music), Contact
+
+
+FOLDER STRUCTURE
+----------------
+  index.html            Home page
+  feed.html             Bluesky feed page
+  css/
+    crispy.css          Main site styles
+    hero-morph.css      Hero animation styles
+  js/
+    hero-morph.js       Hero animation (plain JavaScript, no libraries)
+  README.txt            This file
+
+
+HERO MARKUP
+-----------
+  <section class="hero">
+    <p class="hero__h1">Hola!</p>
+    <p class="hero__text">Coffee · Music · Creative</p>
+  </section>
+
+The animation does not change the .hero height or background. Those are
+controlled in crispy.css.
+
+
+HOW THE HERO ANIMATION WORKS
+----------------------------
+hero-morph.js interpolates between matching SVG path coordinates itself,
+so it needs no outside libraries and makes no external requests. This
+keeps the site compatible with a strict script-src 'self' policy.
+
+The logo shape is currently a stylized approximation. Swap in the exact
+logo SVG paths when they are ready.
+
+
+RUNNING IT LOCALLY
+------------------
+Open index.html in a browser, or use the Live Server extension in
+VS Code. There is nothing to install.
+
+
+HOSTING
+-------
+Hosted on GitHub Pages from the main branch. The domain is registered at
+GoDaddy and points to GitHub Pages through A records and a www CNAME.
+Pushing a commit to main updates the live site within a minute or two.
+
+
+CONTACT
+-------
+Web:      https://christianmejia.com
+Bluesky:  @mejiachris
+GitHub:   https://github.com/blkgld
+
+
+LICENSE / COPYRIGHT
+-------------------
+© Chris Mejia. All rights reserved.
+The code, design, logo and images in this repository may not be copied or
+reused without permission.
