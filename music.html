@@ -16,94 +16,218 @@
 
   <style>
     /* Gallery-only styles. Colors, fonts and spacing come from crispy.css. */
+
+    /* ---------- Intro + search ---------- */
     .gallery-intro { padding-bottom: 0; }
-    .gallery-intro .bio__inner { margin: 0; max-width: none; }   /* left-align with the grid */
     .gallery-intro h1 { margin-bottom: 0.75rem; }
 
+    .gallery-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 1rem 2rem;
+    }
+
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.9rem;
+      padding: 3px 3px 3px 0.9rem;
+      border: 1px solid #d6d6d6;
+      border-radius: 999px;
+      background: #fff;
+      color: var(--muted);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .search:focus-within { border-color: #111; box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.07); }
+    .search .s-ico { flex-shrink: 0; }
+    .search input {
+      -webkit-appearance: none;
+      appearance: none;
+      width: min(200px, 45vw);
+      padding: 0.35rem 0;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-size: 0.9rem;
+    }
+    .search input:focus,
+    .search input:focus-visible { outline: none; }   /* the bar itself shows focus instead */
+    .search input::placeholder { color: #8a8a8a; }
+    .search input::-webkit-search-cancel-button { cursor: pointer; }
+    .search button {
+      padding: 0.4rem 1rem;
+      border: 0;
+      border-radius: 999px;
+      background: var(--nav-hover);
+      color: #fff;
+      font: inherit;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .search button:hover { background: #111; }
+    .search button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+
+    .sr-only {   /* hidden label, still read aloud by screen readers */
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    /* ---------- Grid + covers ---------- */
     #grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
       gap: 28px 24px;
       padding: 2rem var(--page-pad) 5rem;
     }
-    .tile { all: unset; display: block; cursor: pointer; opacity: 0; animation: in .6s ease forwards; }
-    .tile.drop { margin-top: 34px; }
-    .tile img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; border-radius: 2px; filter: grayscale(1); transition: filter .35s, transform .35s, opacity .3s; box-shadow: 0 6px 18px #0003; }
-    .tile:hover img, .tile:focus-visible img { filter: grayscale(0); transform: scale(1.04); }
+    #empty { padding: 0 var(--page-pad) 3rem; color: var(--muted); }
+
+    .tile {
+      all: unset;
+      display: block;
+      cursor: pointer;
+      opacity: 0;
+      animation: in 0.6s ease forwards;
+    }
+    .tile[hidden] { display: none; }
+    .tile.drop { margin-top: 34px; }   /* staggered look, set by filter() in the script */
+    .tile img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 2px;
+      background: #f3f3f3;
+      box-shadow: 0 6px 18px #0003;
+      filter: grayscale(1);
+      transition: filter 0.35s, transform 0.35s, opacity 0.3s;
+    }
+    .tile:hover img,
+    .tile:focus-visible img { filter: grayscale(0); transform: scale(1.04); }
     .tile:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }   /* all:unset removes the site focus ring, so it is restored here */
-    .tile.sel img { opacity: .2; }
-    @keyframes in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    .tile.sel img { opacity: 0.2; }
 
-    .fly { position: fixed; z-index: 30; border-radius: 2px; pointer-events: none; object-fit: cover; box-shadow: 0 10px 30px #0004; }
+    .tile .cap {   /* artist name, cut off after 2 lines */
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-top: 8px;
+      font-size: 0.85rem;
+      line-height: 1.3;
+      color: var(--muted);
+    }
+    .tile.sel .cap { opacity: 0.35; }
 
-    /* Drawer slides in below the sticky header */
+    @keyframes in {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* The copy of the cover that flies into the drawer */
+    .fly {
+      position: fixed;
+      z-index: 30;
+      border-radius: 2px;
+      object-fit: cover;
+      box-shadow: 0 10px 30px #0004;
+      pointer-events: none;
+    }
+
+    /* ---------- Details drawer (slides in below the sticky header) ---------- */
     #drawer {
-      position: fixed; z-index: 20; top: var(--header-height); right: 0; bottom: 0;
+      position: fixed;
+      z-index: 20;
+      top: var(--header-height);
+      right: 0;
+      bottom: 0;
       width: min(380px, 100%);
-      background: var(--bg); color: var(--text);
-      border-left: 1px solid var(--line);
-      box-shadow: -10px 0 40px #0002;
       padding: 24px 24px calc(24px + env(safe-area-inset-bottom, 0px));
       overflow-y: auto;
+      background: var(--bg);
+      color: var(--text);
+      border-left: 1px solid var(--line);
+      box-shadow: -10px 0 40px #0002;
       transform: translateX(105%);
-      transition: transform .45s cubic-bezier(.2, .8, .2, 1);
+      transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
     #drawer.open { transform: none; }
-    #drawer.nt { transition: none; }
-    #dImg { width: 100%; aspect-ratio: 1; display: block; border-radius: 2px; background: #f3f3f3; }
+    #drawer.nt { transition: none; }   /* used briefly by the script to measure positions */
+
+    #dImg { display: block; width: 100%; aspect-ratio: 1; border-radius: 2px; background: #f3f3f3; }
     #drawer h2 { margin: 18px 0 4px; font-family: "Playfair Display", serif; font-weight: 600; font-size: 1.6rem; line-height: 1.2; }
     #dArtist { margin: 0 0 18px; color: var(--muted); }
-    dl { margin: 0; display: grid; gap: 8px; }
-    dl div { display: flex; justify-content: space-between; gap: 1rem; background: #f3f3f3; padding: 11px 14px; border-radius: 4px; font-size: .9rem; }
-    dt { color: var(--muted); font-family: "Questrial", sans-serif; }
-    dd { margin: 0; font-weight: 500; text-align: right; }
-    #dLink { display: block; margin-top: 14px; font-size: .85rem; color: var(--muted); text-align: center; }
-    #dLink[hidden] { display: none; }
-    #close { position: absolute; top: 10px; right: 12px; z-index: 2; width: 34px; height: 34px; border: 0; border-radius: 50%; background: #000a; color: #fff; font-size: 18px; cursor: pointer; }
 
+    #dMeta { display: grid; gap: 8px; margin: 0; }
+    #dMeta div { display: flex; justify-content: space-between; gap: 1rem; padding: 11px 14px; border-radius: 4px; background: #f3f3f3; font-size: 0.9rem; }
+    #dMeta dt { color: var(--muted); font-family: "Questrial", sans-serif; }
+    #dMeta dd { margin: 0; font-weight: 500; text-align: right; }
+
+    #dLink { display: block; margin-top: 14px; font-size: 0.85rem; color: var(--muted); text-align: center; }
+    #dLink[hidden] { display: none; }
+
+    #close {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      z-index: 2;
+      width: 34px;
+      height: 34px;
+      border: 0;
+      border-radius: 50%;
+      background: #000a;
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    /* ---------- Tablets and phones ---------- */
+    @media (max-width: 900px) {
+      /* Search drops below the intro text */
+      .gallery-intro .music__inner { display: flex; flex-direction: column; }
+      .gallery-head { display: contents; }
+      .gallery-head h1 { order: 1; }
+      .gallery-intro p { order: 2; }
+      .search { order: 3; width: 100%; max-width: 420px; margin-top: 0; }
+      .search input { flex: 1; width: auto; }
+    }
+
+    /* ---------- Phones: drawer becomes a bottom sheet ---------- */
     @media (max-width: 720px) {
-      #drawer { top: auto; width: 100%; height: 68vh; transform: translateY(105%); border-left: 0; border-top: 1px solid var(--line); border-radius: 16px 16px 0 0; box-shadow: 0 -10px 40px #0002; }
-      #drawer.open { transform: none; }
-      #dImg { width: 55%; margin: 0 auto; }
-      #drawer h2, #dArtist { text-align: center; }
-  /* Phone only: show the Discogs link right under the artist name */
-      #drawer { display: flex; flex-direction: column; }
+      #drawer {
+        top: auto;
+        width: 100%;
+        height: 68vh;
+        display: flex;
+        flex-direction: column;
+        border-left: 0;
+        border-top: 1px solid var(--line);
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -10px 40px #0002;
+        transform: translateY(105%);
+      }
       #drawer > * { flex-shrink: 0; }
+      #dImg { width: 55%; margin: 0 auto; }
+      #drawer h2,
+      #dArtist { text-align: center; }
       #dArtist { margin-bottom: 4px; }
-      #dLink { order: 1; margin: 0 0 18px; }
+      #dLink { order: 1; margin: 0 0 18px; }   /* Discogs link sits right under the artist name */
       #dMeta { order: 2; }
     }
-    @media (prefers-reduced-motion: reduce) { .tile { animation: none; opacity: 1; } }
-    
-    /* Artist name under each cover */
-.tile .cap { display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 8px; font-size: .85rem; line-height: 1.3; color: var(--muted); }
-.tile.sel .cap { opacity: .35; }
-.tile[hidden] { display: none; }
 
-/* Search box */
-.gallery-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem 2rem; flex-wrap: wrap; }
-.search { display: flex; align-items: center; gap: .5rem; margin-top: .9rem; padding: 3px 3px 3px .9rem; border: 1px solid #d6d6d6; border-radius: 999px; background: #fff; color: var(--muted); transition: border-color .15s, box-shadow .15s; }
-.search:focus-within { border-color: #111; box-shadow: 0 0 0 3px rgba(0,0,0,.07); }
-.search .s-ico { flex-shrink: 0; }
-.search input { -webkit-appearance: none; appearance: none; font: inherit; font-size: .9rem; width: min(200px, 45vw); padding: .35rem 0; border: 0; background: transparent; color: var(--text); }
-.search input:focus, .search input:focus-visible { outline: none; }
-.search input::placeholder { color: #8a8a8a; }
-.search input::-webkit-search-cancel-button { cursor: pointer; }
-.search button { font: inherit; font-size: .8rem; font-weight: 500; padding: .4rem 1rem; border: 0; border-radius: 999px; background: var(--nav-hover); color: #fff; cursor: pointer; transition: background .15s; }
-.search button:hover { background: #111; }
-.search button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
-.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-#empty { padding: 0 var(--page-pad) 3rem; color: var(--muted); }
-
-/* Phone only: search sits under the intro text */
-@media (max-width: 720px) {
-  .search { width: 100%; } .search input { flex: 1; width: auto; }
-  .gallery-intro .bio__inner { display: flex; flex-direction: column; }
-  .gallery-head { display: contents; }
-  .gallery-head h1 { order: 1; }
-  .gallery-intro p { order: 2; }
-  .search { order: 3; margin-top: 0; }
-}
+    @media (prefers-reduced-motion: reduce) {
+      .tile { animation: none; opacity: 1; }
+    }
   </style>
 </head>
 <body>
@@ -115,19 +239,21 @@
     <section class="music gallery-intro">
       <div class="music__inner">
         <div class="gallery-head">
-  <h1>Record Archive</h1>
-  <form class="search" id="search" role="search">
-    <label class="sr-only" for="q">Search artist</label>
-    <svg class="s-ico" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-    <input id="q" type="search" placeholder="Search Artist" autocomplete="off">
-    <button type="submit">Find</button>
-  </form>
-</div>
+          <h1>Record Archive</h1>
+          <form class="search" id="search" role="search">
+            <label class="sr-only" for="q">Search artist</label>
+            <svg class="s-ico" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <input id="q" type="search" placeholder="Search Artist" autocomplete="off">
+            <button type="submit">Find</button>
+          </form>
+        </div>
         <p>A collector is someone chasing that rare find and paying top dollar for it. I’m not that guy. I'm just buying records I wanted as a kid, and finally getting to hear them properly. I also buy records that have cool cover art. Sometimes, I get lucky and find something special, but most times it's a terrible record 😆. This is an archive of my growing collection.</p>
         <p class="music__note">* Hover or click a recordcover for more details.</p>
       </div>
     </section>
-    <div id="grid"></div><p id="empty" role="status" hidden>No artists match that search.</p>
+
+    <div id="grid"></div>
+    <p id="empty" role="status" hidden>No artists match that search.</p>
   </main>
 
   <aside id="drawer" aria-label="Album details" aria-hidden="true">
@@ -142,118 +268,115 @@
   {% include footer.html %}
 
   <script>
-// Swap this array for your Discogs export (collection.json) later.
-const SAMPLE=[
-["Midnight Static","The Low Hours",1978,"Velvet Groove","Jazz",8],
-["Paper Moons","Ada Verne",1983,"Orchid Sound","Synth-pop",10],
-["Dust & Neon","Ghost Harbor",1991,"Cold Pine","Shoegaze",9],
-["Copper Rain","Marlow Quartet",1966,"Blue Lantern","Jazz",6],
-["Slow Fire","The Ember Choir",1974,"Redwood","Soul",11],
-["Tidewater","Iris Kane",1989,"Harbor Lane","Folk",9],
-["Glass Garden","Pale Season",1996,"Static Bloom","Dream pop",12],
-["Afterglow","Night Ferry",1985,"Orchid Sound","New wave",10],
-["Salt Road","Tomas Reyes",1971,"Dusty Reel","Country",10],
-["Violet Hour","Lune",2004,"Static Bloom","Electronic",8],
-["Brass Heart","The Kingfishers",1969,"Redwood","Rock",9],
-["Low Tide Radio","Ada Verne",1987,"Orchid Sound","Synth-pop",9],
-["Ninth Window","Marlow Quartet",1972,"Blue Lantern","Jazz",5],
-["Honey Static","Pale Season",1993,"Static Bloom","Shoegaze",11],
-["Northern Lights Motel","Ghost Harbor",1999,"Cold Pine","Indie",12],
-["Velvet Engine","The Low Hours",1981,"Velvet Groove","Funk",8],
-["Small Hours","Iris Kane",1992,"Harbor Lane","Folk",10],
-["Orbit Cafe","Lune",2011,"Static Bloom","Ambient",7]
-];
-const $=id=>document.getElementById(id);
-const grid=$("grid"),drawer=$("drawer"),dImg=$("dImg");
-const still=matchMedia("(prefers-reduced-motion:reduce)").matches;
+    const $ = id => document.getElementById(id);
+    const grid = $("grid"), drawer = $("drawer"), dImg = $("dImg");
+    const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// Placeholder covers drawn as tiny SVGs (no external images needed)
-function cover(r,i){
-  const h=(i*47)%360,t=r.title.replace(/&/g,"+").slice(0,22);
-  const s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><rect width="300" height="300" fill="hsl(${h},55%,${30+(i%4)*7}%)"/><circle cx="${90+(i*37)%120}" cy="${100+(i*23)%90}" r="${60+(i*11)%40}" fill="hsl(${(h+40)%360},70%,60%)" opacity=".85"/><rect x="0" y="${200+(i%3)*10}" width="300" height="100" fill="hsl(${(h+200)%360},45%,14%)"/><text x="16" y="262" font-family="Arial" font-weight="700" font-size="20" fill="#fff">${t}</text><text x="16" y="284" font-family="Arial" font-size="13" fill="#fffa">${r.artist}</text></svg>`;
-  return "data:image/svg+xml,"+encodeURIComponent(s);
-}
+    let RECORDS = [];     // filled from collection.json
+    let current = null;   // the tile whose album is open in the drawer
 
-function build(){
-  RECORDS.forEach((r,i)=>{
-    const b=document.createElement("button");
-    b.className="tile";
-    b.dataset.artist=norm(r.artist);
-    b.style.animationDelay=(Math.random()*0.9).toFixed(2)+"s";
-    b.setAttribute("aria-label",r.title+" by "+r.artist);
-    b.innerHTML=`<img alt="" src="${r.cover?esc(r.cover):cover(r,i)}" loading="lazy" referrerpolicy="no-referrer"><span class="cap">${esc(r.artist)}</span>`;
-    b.onclick=()=>open(i,b);
-    grid.append(b);
-  });
-  filter();
-}
+    // Makes text safe to place inside HTML
+    const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    // Lower-case, accent-free text so "jose" finds "José"
+    const norm = s => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
-let cur=null;
-const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-function fill(r,src){
-  dImg.src=src; dImg.alt=r.title+" cover";
-  $("dTitle").textContent=r.title; $("dArtist").textContent=r.artist;
-  const rows=[["Genre",r.genre||"—"],["Released",r.year||"—"],["Label",r.label||"—"],["Cat. no.",r.catno||"—"],["Format",r.format||"—"]];
-  $("dMeta").innerHTML=rows.map(x=>`<div><dt>${x[0]}</dt><dd>${esc(x[1])}</dd></div>`).join("");
-  const l=$("dLink"); l.hidden=!r.url; if(r.url)l.href=r.url;
-}
-function open(i,tile){
-  if(cur===tile)return;
-  const img=tile.querySelector("img"),from=img.getBoundingClientRect();
-  fill(RECORDS[i],RECORDS[i].cover||img.src);
-  // measure where the drawer image will end up, without animating the drawer
-  if(!drawer.classList.contains("open")){
-    drawer.classList.add("nt","open");
-    var to=dImg.getBoundingClientRect();
-    drawer.classList.remove("open"); void drawer.offsetWidth;
-    drawer.classList.remove("nt"); drawer.classList.add("open");
-  } else { var to=dImg.getBoundingClientRect(); }
-  drawer.setAttribute("aria-hidden","false");
-  if(cur)cur.classList.remove("sel");
-  cur=tile;
-  if(still)return;
-  tile.classList.add("sel");
-  dImg.style.visibility="hidden";
-  const c=img.cloneNode();
-  c.className="fly";
-  Object.assign(c.style,{left:from.left+"px",top:from.top+"px",width:from.width+"px",height:from.height+"px",filter:"grayscale(1)"});
-  document.body.append(c); void c.offsetWidth;
-  c.style.transition="all .55s cubic-bezier(.2,.8,.2,1)";
-  Object.assign(c.style,{left:to.left+"px",top:to.top+"px",width:to.width+"px",height:to.height+"px",filter:"none"});
-  setTimeout(()=>{dImg.style.visibility="";c.remove()},600);
-}
-function close(){
-  drawer.classList.remove("open"); drawer.setAttribute("aria-hidden","true");
-  if(cur)cur.classList.remove("sel"); cur=null;
-}
-$("close").onclick=close;
-addEventListener("keydown",e=>{if(e.key==="Escape")close()});
+    // Creates one tile (cover + artist name) per record
+    function build() {
+      RECORDS.forEach((r, i) => {
+        const tile = document.createElement("button");
+        tile.className = "tile";
+        tile.dataset.artist = norm(r.artist);
+        tile.style.animationDelay = (Math.random() * 0.9).toFixed(2) + "s";
+        tile.setAttribute("aria-label", r.title + " by " + r.artist);
+        tile.innerHTML = `<img alt="" src="${esc(r.cover)}" loading="lazy" referrerpolicy="no-referrer"><span class="cap">${esc(r.artist)}</span>`;
+        tile.onclick = () => openAlbum(i, tile);
+        grid.append(tile);
+      });
+      filter();
+    }
 
-// Search: ignores capitals and accents
-const norm=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
-function filter(){
-  const q=norm($("q").value.trim());
-  let n=0;
-  document.querySelectorAll(".tile").forEach(t=>{
-    const show=!q||t.dataset.artist.includes(q);
-    t.hidden=!show;
-    t.classList.toggle("drop",show&&n%3===1);
-    if(show)n++;
-  });
-  $("empty").hidden=n>0;
-  if(cur&&cur.hidden)close();
-}
-$("search").addEventListener("submit",e=>{e.preventDefault();filter();});
-$("q").addEventListener("input",filter);
+    // Shows only the artists that match the search box
+    function filter() {
+      const q = norm($("q").value.trim());
+      let shown = 0;
+      document.querySelectorAll(".tile").forEach(tile => {
+        const match = !q || tile.dataset.artist.includes(q);
+        tile.hidden = !match;
+        tile.classList.toggle("drop", match && shown % 3 === 1);   // keeps the staggered look on whatever is showing
+        if (match) shown++;
+      });
+      $("empty").hidden = shown > 0;
+      if (current && current.hidden) closeAlbum();
+    }
 
-// Load collection.json (made by fetch-collection.mjs); fall back to sample data if missing
-const toObj=r=>({title:r[0],artist:r[1],year:r[2],label:r[3],genre:r[4],format:"Vinyl, LP",catno:"",cover:"",url:""});
-let RECORDS=[];
-fetch("collection.json")
-  .then(r=>{if(!r.ok)throw 0;return r.json()})
-  .then(d=>{RECORDS=d})
-  .catch(()=>{RECORDS=SAMPLE.map(toObj)})
-  .then(build);
-</script>
+    // Puts one record's details into the drawer
+    function fill(r, src) {
+      dImg.src = src;
+      dImg.alt = r.title + " cover";
+      $("dTitle").textContent = r.title;
+      $("dArtist").textContent = r.artist;
+      const rows = [["Genre", r.genre], ["Released", r.year], ["Label", r.label], ["Cat. no.", r.catno], ["Format", r.format]];
+      $("dMeta").innerHTML = rows.map(([name, value]) => `<div><dt>${name}</dt><dd>${esc(value || "—")}</dd></div>`).join("");
+      const link = $("dLink");
+      link.hidden = !r.url;
+      if (r.url) link.href = r.url;
+    }
+
+    function openAlbum(i, tile) {
+      if (current === tile) return;
+      const img = tile.querySelector("img");
+      const from = img.getBoundingClientRect();
+      fill(RECORDS[i], RECORDS[i].cover || img.src);
+
+      // Measure where the cover will land in the drawer, without animating the drawer itself
+      const wasOpen = drawer.classList.contains("open");
+      if (!wasOpen) drawer.classList.add("nt", "open");
+      const to = dImg.getBoundingClientRect();
+      if (!wasOpen) {
+        drawer.classList.remove("open");
+        void drawer.offsetWidth;   // makes the browser apply the change before the next step
+        drawer.classList.remove("nt");
+        drawer.classList.add("open");
+      }
+      drawer.setAttribute("aria-hidden", "false");
+
+      if (current) current.classList.remove("sel");
+      current = tile;
+      if (reduceMotion) return;
+
+      // Fly a copy of the cover from the grid into the drawer, turning it to color on the way
+      tile.classList.add("sel");
+      dImg.style.visibility = "hidden";
+      const fly = img.cloneNode();
+      fly.className = "fly";
+      Object.assign(fly.style, { left: from.left + "px", top: from.top + "px", width: from.width + "px", height: from.height + "px", filter: "grayscale(1)" });
+      document.body.append(fly);
+      void fly.offsetWidth;
+      fly.style.transition = "all .55s cubic-bezier(.2, .8, .2, 1)";
+      Object.assign(fly.style, { left: to.left + "px", top: to.top + "px", width: to.width + "px", height: to.height + "px", filter: "none" });
+      setTimeout(() => { dImg.style.visibility = ""; fly.remove(); }, 600);
+    }
+
+    function closeAlbum() {
+      drawer.classList.remove("open");
+      drawer.setAttribute("aria-hidden", "true");
+      if (current) current.classList.remove("sel");
+      current = null;
+    }
+
+    $("close").onclick = closeAlbum;
+    addEventListener("keydown", e => { if (e.key === "Escape") closeAlbum(); });
+    $("search").addEventListener("submit", e => { e.preventDefault(); filter(); });
+    $("q").addEventListener("input", filter);
+
+    // collection.json is made by fetch-collection.mjs (refreshed nightly by GitHub)
+    fetch("collection.json")
+      .then(res => { if (!res.ok) throw new Error(res.status); return res.json(); })
+      .then(data => { RECORDS = data; build(); })
+      .catch(() => {
+        $("empty").textContent = "Sorry, the collection could not be loaded right now.";
+        $("empty").hidden = false;
+      });
+  </script>
 </body>
 </html>
