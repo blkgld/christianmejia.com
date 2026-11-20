@@ -213,7 +213,7 @@ a { color: inherit; }
 }
 
 .music__note {
-  margin-top: 2.5rem;
+  margin-top: 1.25rem;
   font-size: 0.9rem;
   font-style: italic;
   color: var(--muted);
