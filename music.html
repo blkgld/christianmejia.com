@@ -26,9 +26,9 @@
       gap: 28px 24px;
       padding: 2rem var(--page-pad) 5rem;
     }
-    .tile { all: unset; display: block; cursor: pointer; aspect-ratio: 1; opacity: 0; animation: in .6s ease forwards; }
-    .tile:nth-child(3n+2) { margin-top: 34px; }
-    .tile img { width: 100%; height: 100%; display: block; border-radius: 2px; filter: grayscale(1); transition: filter .35s, transform .35s, opacity .3s; box-shadow: 0 6px 18px #0003; }
+    .tile { all: unset; display: block; cursor: pointer; opacity: 0; animation: in .6s ease forwards; }
+    .tile.drop { margin-top: 34px; }
+    .tile img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; border-radius: 2px; filter: grayscale(1); transition: filter .35s, transform .35s, opacity .3s; box-shadow: 0 6px 18px #0003; }
     .tile:hover img, .tile:focus-visible img { filter: grayscale(0); transform: scale(1.04); }
     .tile:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }   /* all:unset removes the site focus ring, so it is restored here */
     .tile.sel img { opacity: .2; }
@@ -74,6 +74,36 @@
       #dMeta { order: 2; }
     }
     @media (prefers-reduced-motion: reduce) { .tile { animation: none; opacity: 1; } }
+    
+    /* Artist name under each cover */
+.tile .cap { display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 8px; font-size: .85rem; line-height: 1.3; color: var(--muted); }
+.tile.sel .cap { opacity: .35; }
+.tile[hidden] { display: none; }
+
+/* Search box */
+.gallery-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem 2rem; flex-wrap: wrap; }
+.search { display: flex; align-items: center; gap: .5rem; margin-top: .9rem; padding: 3px 3px 3px .9rem; border: 1px solid #d6d6d6; border-radius: 999px; background: #fff; color: var(--muted); transition: border-color .15s, box-shadow .15s; }
+.search:focus-within { border-color: #111; box-shadow: 0 0 0 3px rgba(0,0,0,.07); }
+.search .s-ico { flex-shrink: 0; }
+.search input { -webkit-appearance: none; appearance: none; font: inherit; font-size: .9rem; width: min(200px, 45vw); padding: .35rem 0; border: 0; background: transparent; color: var(--text); }
+.search input:focus, .search input:focus-visible { outline: none; }
+.search input::placeholder { color: #8a8a8a; }
+.search input::-webkit-search-cancel-button { cursor: pointer; }
+.search button { font: inherit; font-size: .8rem; font-weight: 500; padding: .4rem 1rem; border: 0; border-radius: 999px; background: var(--nav-hover); color: #fff; cursor: pointer; transition: background .15s; }
+.search button:hover { background: #111; }
+.search button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+#empty { padding: 0 var(--page-pad) 3rem; color: var(--muted); }
+
+/* Phone only: search sits under the intro text */
+@media (max-width: 720px) {
+  .search { width: 100%; } .search input { flex: 1; width: auto; }
+  .gallery-intro .bio__inner { display: flex; flex-direction: column; }
+  .gallery-head { display: contents; }
+  .gallery-head h1 { order: 1; }
+  .gallery-intro p { order: 2; }
+  .search { order: 3; margin-top: 0; }
+}
   </style>
 </head>
 <body>
@@ -84,12 +114,20 @@
   <main id="main">
     <section class="music gallery-intro">
       <div class="music__inner">
-        <h1>Record Archive</h1>
+        <div class="gallery-head">
+  <h1>Record Archive</h1>
+  <form class="search" id="search" role="search">
+    <label class="sr-only" for="q">Search artist</label>
+    <svg class="s-ico" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    <input id="q" type="search" placeholder="Search Artist" autocomplete="off">
+    <button type="submit">Find</button>
+  </form>
+</div>
         <p>A collector is someone chasing that rare find and paying top dollar for it. I’m not that guy. I'm just buying records I wanted as a kid, and finally getting to hear them properly. I also buy records that have cool cover art. Sometimes, I get lucky and find something special, but most times it's a terrible record 😆. This is an archive of my growing collection.</p>
         <p class="music__note">* Hover or click a recordcover for more details.</p>
       </div>
     </section>
-    <div id="grid"></div>
+    <div id="grid"></div><p id="empty" role="status" hidden>No artists match that search.</p>
   </main>
 
   <aside id="drawer" aria-label="Album details" aria-hidden="true">
@@ -140,12 +178,14 @@ function build(){
   RECORDS.forEach((r,i)=>{
     const b=document.createElement("button");
     b.className="tile";
+    b.dataset.artist=norm(r.artist);
     b.style.animationDelay=(Math.random()*0.9).toFixed(2)+"s";
     b.setAttribute("aria-label",r.title+" by "+r.artist);
-    b.innerHTML=`<img alt="" src="${r.cover?esc(r.cover):cover(r,i)}" loading="lazy" referrerpolicy="no-referrer">`;
+    b.innerHTML=`<img alt="" src="${r.cover?esc(r.cover):cover(r,i)}" loading="lazy" referrerpolicy="no-referrer"><span class="cap">${esc(r.artist)}</span>`;
     b.onclick=()=>open(i,b);
     grid.append(b);
   });
+  filter();
 }
 
 let cur=null;
@@ -188,6 +228,23 @@ function close(){
 }
 $("close").onclick=close;
 addEventListener("keydown",e=>{if(e.key==="Escape")close()});
+
+// Search: ignores capitals and accents
+const norm=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+function filter(){
+  const q=norm($("q").value.trim());
+  let n=0;
+  document.querySelectorAll(".tile").forEach(t=>{
+    const show=!q||t.dataset.artist.includes(q);
+    t.hidden=!show;
+    t.classList.toggle("drop",show&&n%3===1);
+    if(show)n++;
+  });
+  $("empty").hidden=n>0;
+  if(cur&&cur.hidden)close();
+}
+$("search").addEventListener("submit",e=>{e.preventDefault();filter();});
+$("q").addEventListener("input",filter);
 
 // Load collection.json (made by fetch-collection.mjs); fall back to sample data if missing
 const toObj=r=>({title:r[0],artist:r[1],year:r[2],label:r[3],genre:r[4],format:"Vinyl, LP",catno:"",cover:"",url:""});
