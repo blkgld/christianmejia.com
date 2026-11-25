@@ -94,12 +94,12 @@
   align-items: start;
 }
 
-/* "Hola!" (two classes so no other heading rule in crispy.css can override it) */
+/* "Hola!" */
 .home-intro .home-intro__title {
   margin: 0;
-  font-family: "Playfair Display", Georgia, serif;
-  font-weight: 500;
-  font-size: clamp(2.25rem, 4vw, 3rem);
+  font-family: "Questrial", sans-serif;
+  font-weight: 600;
+  font-size: clamp(2.25rem, 5vw, 3rem);
   line-height: 1.1;
   letter-spacing: -0.01em;
 }
