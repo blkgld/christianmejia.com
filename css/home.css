@@ -1,22 +1,30 @@
-/* ---------- HERO - with its obi on the left ---------- */
+/* =====================================================
+   home.css: homepage only (hero + intro)
+   Load AFTER crispy.css. No JavaScript, no images, no libraries.
+   Uses --page-pad from crispy.css.
+   ===================================================== */
+
+/* ---------- HERO: a record sleeve, with its obi (paper band) on the left ---------- */
 .home-hero {
   --obi: clamp(2.75rem, 6vw, 5.5rem);       /* width of the white band */
   --display: "Anton", Impact, "Arial Narrow", sans-serif;   /* the heavy sleeve-style face */
 
   display: grid;
   grid-template-columns: var(--obi) minmax(0, 1fr);
+  /* tall enough to feel like a hero, short enough that the next section peeks in */
   min-height: clamp(20rem, calc(100svh - var(--header-height) - 5rem), 38rem);
   background: #000;
   color: #fff;
   overflow: hidden;
 }
 
-/* The obi: white strip with vertical katakana */
+/* The obi: white strip with vertical katakana, the way Japanese vinyl releases wear one */
 .home-hero__obi {
   padding: clamp(1.25rem, 3vw, 2.5rem) 0;
   display: flex;
   justify-content: center;
-  background: #fff;
+  /* light gray cloth with white sashiko stitching (the gray shows while the image loads); 50% = exactly two tiles across the strip */
+  background: #b4b6b9 url("../assets/images/obi-sashiko.svg") center top / 50% auto repeat;
   color: #000;
   transform-origin: top;
   animation: obi-in 0.9s cubic-bezier(0.6, 0, 0.2, 1) both;
@@ -30,7 +38,7 @@
   letter-spacing: 0.3em;
 }
 
-/* HERO text: COFFEE, MUSIC, DESIGN */
+/* The three words: a tight stack, like a wordmark */
 .home-hero__main {
   align-self: center;
   padding: clamp(1.5rem, 4vw, 3rem) var(--page-pad) clamp(1.5rem, 4vw, 3rem) clamp(1.25rem, 4vw, 4rem);
@@ -38,13 +46,14 @@
 
 .home-hero__title {
   display: grid;
-  grid-template-columns: auto auto;         /* words, with katakana */
+  grid-template-columns: auto auto;         /* words, then their katakana */
   justify-content: start;
   align-items: baseline;
   column-gap: clamp(0.75rem, 2.5vw, 2.5rem);
   margin: 0;
   font-family: var(--display);
   font-weight: 400;
+  /* sized by the screen's width AND height so all three words always fit without scrolling */
   font-size: min(21vw, 17svh, 10rem);
   line-height: 1;
   letter-spacing: 0.005em;
@@ -59,7 +68,7 @@
   animation: hero-rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d) both;
 }
 
-/* word in katakana, small, beside it */
+/* The same word in katakana, small, beside it */
 .home-hero__ja {
   font-family: "Hiragino Sans", "Yu Gothic", Meiryo, "Noto Sans CJK JP", sans-serif;
   font-weight: 500;
@@ -70,7 +79,7 @@
   animation: hero-fade 0.9s ease calc(var(--d) + 0.35s) both;
 }
 
-/* ---------- INTRO ---------- */
+/* ---------- INTRO (replaces the long bio on the homepage) ---------- */
 .home-intro {
   padding: clamp(3.5rem, 8vw, 8rem) var(--page-pad);
 }
@@ -78,16 +87,16 @@
 .home-intro__inner {
   max-width: 80rem;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 4fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
   gap: clamp(1.5rem, 5vw, 5rem);
   align-items: start;
 }
 
 .home-intro h2 {
-  margin-left: 15px;
-  font-family: "Questrial", sans-serif;
-  font-weight: 600;
-  font-size: clamp(5rem, 4vw, 3rem);
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(2rem, 4vw, 3rem);
   line-height: 1.1;
   letter-spacing: -0.01em;
 }
@@ -95,7 +104,7 @@
 .home-intro__text {
   max-width: 34em;
   margin: 0 0 1.75rem;
-  font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.425rem);
+  font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
   line-height: 1.5;
 }
 
@@ -138,12 +147,10 @@
 /* ---------- SMALL SCREENS ---------- */
 @media (max-width: 900px) {
   .home-intro__inner { grid-template-columns: 1fr; gap: 1.25rem; }
-  .home-intro h2 { font-size: 60px; margin-left: 2px; }
 }
 
 @media (max-width: 720px) {
   .home-hero { min-height: 20rem; }
   .home-hero__title { font-size: min(19vw, 17svh); }
   .home-hero__ja { font-size: 0.8rem; letter-spacing: 0.05em; }
-  .home-intro h2 { font-size: 60px; margin-left: 2px; }
 }
