@@ -27,13 +27,39 @@
   <script type="module" src="https://cdn.jsdelivr.net/npm/bsky-embed/dist/bsky-embed.es.js"></script>
 
   <style>
+    /* Feed page layout
+       - Wider than before (~960px, close to your red frame on desktop)
+       - Side padding shrinks on small screens so text never touches the edge */
     .feed {
-      max-width: 600px;
+      max-width: 960px;
       margin: 0 auto;
-      padding: 2rem 1rem 4rem;
+      padding: 2.5rem clamp(1rem, 4vw, 2rem) 4rem;
     }
     .feed h1 {
       margin-top: 0;
+    }
+
+    /* Divider between the intro text and the posts */
+    .feed__divider {
+      border: 0;
+      border-top: 1px solid #d9d9d9;
+      margin: 2.5rem 0 2rem;
+    }
+
+    /* Custom elements are inline by default; make the embed fill the column */
+    .feed bsky-embed {
+      display: block;
+      width: 100%;
+    }
+
+    /* Phones: slightly tighter vertical spacing */
+    @media (max-width: 600px) {
+      .feed {
+        padding-top: 1.5rem;
+      }
+      .feed__divider {
+        margin: 1.75rem 0 1.5rem;
+      }
     }
   </style>
 </head>
@@ -49,8 +75,11 @@
       <p>Sharing my interests in Music, Coffee, Photography and Classic Motorcycles. I also share some of my experiences here in Japan.</p>
       <p class="bio__note"><strong>Note</strong>: Maybe you'll find that I am resharing stuff I have shared in my other social media platforms. I plan to eventually delete my accounts on those platforms.</p>
 
+      <hr class="feed__divider">
+
       <bsky-embed
         username="mejiachris.bsky.social"
+        custom-styles="img[src*='/avatar/'] { display: none !important; }"
         mode="light"
         limit="10"
         link-target="_blank"
