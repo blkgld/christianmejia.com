@@ -13,7 +13,7 @@
   grid-template-columns: var(--obi) minmax(0, 1fr);
   /* tall enough to feel like a hero, short enough that the next section peeks in */
   min-height: clamp(20rem, calc(100svh - var(--header-height) - 5rem), 38rem);
-  background: #000;
+  background: #000 url("/images/cafeBGsonidero.jpg") center/cover no-repeat;
   color: #fff;
   overflow: hidden;
 }
