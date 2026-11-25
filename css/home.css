@@ -32,7 +32,7 @@
 .home-hero__obi-ja {
   writing-mode: vertical-rl;                /* text runs top to bottom */
   white-space: nowrap;
-  font-family: "Hiragino Sans", "Yu Gothic", Meiryo, "Noto Sans CJK JP", sans-serif;
+  font-family:  "Noto Sans CJK JP", "Yu Gothic", "Hiragino Sans", Meiryo, sans-serif;
   font-weight: 700;
   font-size: clamp(1.1rem, 2vw, 1.75rem);
   letter-spacing: 0.3em;
@@ -70,7 +70,7 @@
 
 /* The same word in katakana, small, beside it */
 .home-hero__ja {
-  font-family: "Hiragino Sans", "Yu Gothic", Meiryo, "Noto Sans CJK JP", sans-serif;
+  font-family:  "Noto Sans CJK JP", "Yu Gothic", "Hiragino Sans", Meiryo, sans-serif;
   font-weight: 500;
   font-size: clamp(0.85rem, 1.6vw, 1.5rem);
   line-height: 1;
