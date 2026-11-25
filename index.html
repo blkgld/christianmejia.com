@@ -53,9 +53,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Open+Sans:wght@600&amp;display=swap">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Questrial&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Questrial&family=Anton&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/crispy.css">
-  <link rel="stylesheet" href="/css/hero-animation.css">
+  <link rel="stylesheet" href="/css/home.css">
 </head>
 
 <body>
@@ -65,26 +65,41 @@
 
   <main id="main">
 
-    <!-- ============ A. MAIN IMAGE ============ -->
-  <section class="hero">
-    <p class="hero__h1">Hola!</p>
-    <p class="hero__text">coffee • music • design</p>
-  </section>
-    <!-- ============ B. BIO ============ -->
-    <section class="bio">
-      <div class="bio__inner">
-        <h2>I'm Chris Mejia.</h2>
-<p>An experienced freelance front-end web developer and graphic designer, 25+ years in. In that time, I also spent a few years working in film and television production, where long studio hours turned me into a lifelong coffee fanatic. No complaints because now I love coffee in all forms.</p>
+    <!-- ============ A. HERO ============ -->
+    <section class="home-hero">
+      <div class="home-hero__obi" aria-hidden="true">
+        <span class="home-hero__obi-ja" lang="ja">メヒア・クリス</span>
+      </div>
+      <div class="home-hero__main">
+        <h1 class="home-hero__title" aria-label="Coffee, music, design">
+          <span class="home-hero__row">
+            <span class="home-hero__word">Coffee</span>
+            <span class="home-hero__ja" lang="ja" aria-hidden="true">コーヒー</span>
+          </span>
+          <span class="home-hero__row">
+            <span class="home-hero__word">Music</span>
+            <span class="home-hero__ja" lang="ja" aria-hidden="true">ミュージック</span>
+          </span>
+          <span class="home-hero__row">
+            <span class="home-hero__word">Design</span>
+            <span class="home-hero__ja" lang="ja" aria-hidden="true">デザイン</span>
+          </span>
+        </h1>
+      </div>
+    </section>
 
-<p>These days I am living in Japan. While studying the language and writing the next chapter of my life, I've picked my camera back up again. Photography is how I put my design eye to work, and Japan is a ridiculously good place to practice. The rich history and culture provide endless inspiration. But, street photography is what really drives my inspiration.</p>
+    <!-- ============ B. INTRO ============ -->
+    <section class="home-intro">
+      <div class="home-intro__inner">
+        <h2>Hola!</h2>
+        <div>
+          <p class="home-intro__text">I’m a freelance front-end developer and graphic designer with more than 25 years of experience. I live in Japan now, where i’m studying the language and photographing the country’s rich history, culture, and inspiring street life.
 
-<p>I have also been collecting vinyl for quite sometime now and fortunatelyJapan has gifted me an endless supply of near-mint used records, found in the large amount of second-hand shops. My collection is growing nicely. Are you on Discogs? If so, feel free to add me so that we can trade records! <a href="https://www.discogs.com/user/SonideroJP/collection" target="_blank" rel="noopener noreferrer">Collection</a>.</p>
-
-<h2>So what's next?</h2>
-<p>A small listening café: I have always dreamed of creating a place where you can enjoy a perfectly pulled latte, while listening to vinyl records spinning through the warm sound of a vintage Hi-Fi system, and a place to meet friends to enjoy that good music and coffee. It's a work in progress, and I'll update this page as it takes shape.</p>
-
-<p>Please feel free to contact me if you have any questions. I would love to hear from you. Thanks for stopping by!</p>
-
+When I’m not behind a camera, you’ll probably find me digging through second-hand record shops, adding to my vinyl collection. One day, I hope to bring my two passions for music and coffee together by opening a small listening café.</p>
+          <ul class="home-intro__links">
+            <li><a href="/about.html">Read more</a></li>
+          </ul>
+        </div>
       </div>
     </section>
 
@@ -104,6 +119,5 @@
   {% include footer.html %}
 
   <script src="/js/year.js" defer></script>
-  <script src="/js/hero-animation.js"></script>
 </body>
 </html>
