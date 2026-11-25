@@ -71,7 +71,7 @@
 /* The same word in katakana, small, beside it */
 .home-hero__ja {
   font-family:  "Noto Sans CJK JP", "Yu Gothic", "Hiragino Sans", Meiryo, sans-serif;
-  font-weight: 500;
+  font-weight: 700;
   font-size: clamp(0.85rem, 1.6vw, 1.5rem);
   line-height: 1;
   letter-spacing: 0.2em;
