@@ -1,6 +1,12 @@
+/* =====================================================
+   home.css: homepage only (hero + intro)
+   Load AFTER crispy.css. No JavaScript, no images, no libraries.
+   Uses --page-pad from crispy.css.
+   ===================================================== */
+
 /* ---------- HERO: a record sleeve, with its obi (paper band) on the left ---------- */
 .home-hero {
-  --obi: clamp(2.75rem, 6vw, 5.5rem);       /* width of the band */
+  --obi: clamp(2.75rem, 6vw, 5.5rem);       /* width of the white band */
   --display: "Anton", Impact, "Arial Narrow", sans-serif;   /* the heavy sleeve-style face */
 
   display: grid;
@@ -12,7 +18,7 @@
   overflow: hidden;
 }
 
-/* The obi: strip with vertical katakana */
+/* The obi: white strip with vertical katakana, the way Japanese vinyl releases wear one */
 .home-hero__obi {
   padding: clamp(1.25rem, 3vw, 2.5rem) 0;
   display: flex;
@@ -32,7 +38,7 @@
   letter-spacing: 0.3em;
 }
 
-/* The three words: a tight stack */
+/* The three words: a tight stack, like a wordmark */
 .home-hero__main {
   align-self: center;
   padding: clamp(1.5rem, 4vw, 3rem) var(--page-pad) clamp(1.5rem, 4vw, 3rem) clamp(1.25rem, 4vw, 4rem);
@@ -40,13 +46,14 @@
 
 .home-hero__title {
   display: grid;
-  grid-template-columns: auto auto;         /* words followed by katakana */
+  grid-template-columns: auto auto;         /* words, then their katakana */
   justify-content: start;
   align-items: baseline;
   column-gap: clamp(0.75rem, 2.5vw, 2.5rem);
   margin: 0;
   font-family: var(--display);
   font-weight: 400;
+  /* sized by the screen's width AND height so all three words always fit without scrolling */
   font-size: min(21vw, 17svh, 10rem);
   line-height: 1;
   letter-spacing: 0.005em;
@@ -61,7 +68,7 @@
   animation: hero-rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d) both;
 }
 
-/* katakana, small, beside it */
+/* The same word in katakana, small, beside it */
 .home-hero__ja {
   font-family: "Hiragino Sans", "Yu Gothic", Meiryo, "Noto Sans CJK JP", sans-serif;
   font-weight: 500;
@@ -72,30 +79,33 @@
   animation: hero-fade 0.9s ease calc(var(--d) + 0.35s) both;
 }
 
+/* ---------- INTRO (the short "Hola!" bio under the hero) ---------- */
+/* Everything that controls this section's spacing lives right here. */
 .home-intro {
-  padding: clamp(3.5rem, 8vw, 8rem) var(--page-pad);
+  padding: clamp(2.5rem, 8vw, 8rem) var(--page-pad);   /* space above and below the whole section */
 }
 
 .home-intro__inner {
   max-width: 80rem;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-  gap: clamp(1.5rem, 5vw, 5rem);
+  gap: clamp(1rem, 5vw, 5rem);                          /* space between "Hola!" and the text */
   align-items: start;
 }
 
-.home-intro h2 {
+/* "Hola!" (two classes so no other heading rule in crispy.css can override it) */
+.home-intro .home-intro__title {
   margin: 0;
   font-family: "Playfair Display", Georgia, serif;
   font-weight: 500;
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(2.25rem, 4vw, 3rem);
   line-height: 1.1;
   letter-spacing: -0.01em;
 }
 
 .home-intro__text {
   max-width: 34em;
-  margin: 0 0 1.75rem;
+  margin: 0 0 1.25rem;                                  /* space between the paragraphs */
   font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
   line-height: 1.5;
 }
@@ -104,7 +114,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem 2rem;
-  margin: 0;
+  margin: 0.5rem 0 0;
   padding: 0;
   list-style: none;
 }
@@ -138,7 +148,7 @@
 
 /* ---------- SMALL SCREENS ---------- */
 @media (max-width: 900px) {
-  .home-intro__inner { grid-template-columns: 1fr; gap: 1.25rem; }
+  .home-intro__inner { grid-template-columns: 1fr; gap: 1rem; }
 }
 
 @media (max-width: 720px) {
