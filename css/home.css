@@ -84,7 +84,7 @@
 }
 
 .home-intro h2 {
-  margin: 0;
+  margin-left: 15px;
   font-family: "Questrial", sans-serif;
   font-weight: 600;
   font-size: clamp(5rem, 4vw, 3rem);
@@ -138,10 +138,12 @@
 /* ---------- SMALL SCREENS ---------- */
 @media (max-width: 900px) {
   .home-intro__inner { grid-template-columns: 1fr; gap: 1.25rem; }
+  .home-intro h2 { font-size: 32px; margin-left: 2px; }
 }
 
 @media (max-width: 720px) {
   .home-hero { min-height: 20rem; }
   .home-hero__title { font-size: min(19vw, 17svh); }
   .home-hero__ja { font-size: 0.8rem; letter-spacing: 0.05em; }
+  .home-intro h2 { font-size: 32px; margin-left: 2px; }
 }
