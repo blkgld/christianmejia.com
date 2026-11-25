@@ -21,7 +21,6 @@
 /* The obi: white strip with vertical katakana, the way Japanese vinyl releases wear one */
 .home-hero__obi {
   padding: clamp(1.25rem, 3vw, 2.5rem) 0;
-  margin-top: 30px;
   display: flex;
   justify-content: center;
   /* light gray cloth with white sashiko stitching. The pattern is embedded; 50% = exactly two tiles across the strip */
@@ -31,6 +30,7 @@
   animation: obi-in 0.9s cubic-bezier(0.6, 0, 0.2, 1) both;
 }
 .home-hero__obi-ja {
+  margin-top: 30px;
   writing-mode: vertical-rl;                /* text runs top to bottom */
   white-space: nowrap;
   font-family:  "Noto Sans CJK JP", "Yu Gothic", "Hiragino Sans", Meiryo, sans-serif;
