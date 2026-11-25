@@ -78,7 +78,7 @@
 .home-intro__inner {
   max-width: 80rem;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 4fr);
   gap: clamp(1.5rem, 5vw, 5rem);
   align-items: start;
 }
@@ -95,7 +95,7 @@
 .home-intro__text {
   max-width: 34em;
   margin: 0 0 1.75rem;
-  font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.425rem);
   line-height: 1.5;
 }
 
