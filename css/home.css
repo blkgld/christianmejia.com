@@ -1,30 +1,23 @@
-/* =====================================================
-   home.css: homepage only (hero + intro)
-   Load AFTER crispy.css. No JavaScript, no images, no libraries.
-   Uses --page-pad from crispy.css.
-   ===================================================== */
-
-/* ---------- HERO: with its obi on the left ---------- */
+/* ---------- HERO: obi on the left ---------- */
 .home-hero {
   --obi: clamp(3.6875rem, calc(6vw + 15px), 6.4375rem);   /* width of the obi band (15px wider than before) */
   --display: "Anton", Impact, "Arial Narrow", sans-serif;   /* the heavy sleeve-style face */
 
   display: grid;
   grid-template-columns: var(--obi) minmax(0, 1fr);
-  /* tall enough to feel like a hero, short enough that the next section peeks in */
   min-height: clamp(20rem, calc(100svh - var(--header-height) - 5rem), 38rem);
   background: #000 url("/assets/images/cafeBGsonidero.jpg") center/cover no-repeat;
   color: #fff;
   overflow: hidden;
 }
 
-/* The obi: white strip with vertical katakana, the way Japanese vinyl releases wear one */
+/* The obi: white strip with vertical katakana */
 .home-hero__obi {
   padding: clamp(1.25rem, 3vw, 2.5rem) 0;
   display: flex;
   justify-content: center;                  /* centered left-to-right in the strip */
   align-items: center;                      /* centered top-to-bottom, so it lines up with "Music" */
-  /* #f5f5f5 cloth with soft gray sashiko stitching. The pattern is embedded; 50% = exactly two tiles across the strip */
+  /* #f5f5f5 with sashiko stitching. Pattern is embedded; 50% = exactly two tiles across the strip */
   background: #f5f5f5 url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2OS4yODIiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA2OS4yODIgNDAiPgo8cmVjdCB3aWR0aD0iNjkuMjgyIiBoZWlnaHQ9IjQwIiBmaWxsPSIjZjVmNWY1Ii8+CjxnIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLW9wYWNpdHk9Ii4wMyIgc3Ryb2tlLXdpZHRoPSIxLjU1OSI+PHBhdGggZD0iTTAgMFY0MCIvPjxwYXRoIGQ9Ik0zLjQ2NCAwVjQwIi8+PHBhdGggZD0iTTYuOTI4IDBWNDAiLz48cGF0aCBkPSJNMTAuMzkyIDBWNDAiLz48cGF0aCBkPSJNMTMuODU2IDBWNDAiLz48cGF0aCBkPSJNMTcuMzIxIDBWNDAiLz48cGF0aCBkPSJNMjAuNzg1IDBWNDAiLz48cGF0aCBkPSJNMjQuMjQ5IDBWNDAiLz48cGF0aCBkPSJNMjcuNzEzIDBWNDAiLz48cGF0aCBkPSJNMzEuMTc3IDBWNDAiLz48cGF0aCBkPSJNMzQuNjQxIDBWNDAiLz48cGF0aCBkPSJNMzguMTA1IDBWNDAiLz48cGF0aCBkPSJNNDEuNTY5IDBWNDAiLz48cGF0aCBkPSJNNDUuMDMzIDBWNDAiLz48cGF0aCBkPSJNNDguNDk3IDBWNDAiLz48cGF0aCBkPSJNNTEuOTYyIDBWNDAiLz48cGF0aCBkPSJNNTUuNDI2IDBWNDAiLz48cGF0aCBkPSJNNTguODkgMFY0MCIvPjxwYXRoIGQ9Ik02Mi4zNTQgMFY0MCIvPjxwYXRoIGQ9Ik02NS44MTggMFY0MCIvPjwvZz4KPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZDBkMGQwIiBzdHJva2Utd2lkdGg9IjIuMCIgc3Ryb2tlLWRhc2hhcnJheT0iNC43MjIgMi44OTQiPgo8Y2lyY2xlIGN4PSItMzQuNjQxIiBjeT0iLTIwIiByPSI0MCIvPgo8Y2lyY2xlIGN4PSItMzQuNjQxIiBjeT0iMjAiIHI9IjQwIi8+CjxjaXJjbGUgY3g9Ii0zNC42NDEiIGN5PSI2MCIgcj0iNDAiLz4KPGNpcmNsZSBjeD0iMCIgY3k9Ii00MCIgcj0iNDAiLz4KPGNpcmNsZSBjeD0iMzQuNjQxIiBjeT0iLTIwIiByPSI0MCIvPgo8Y2lyY2xlIGN4PSIwIiBjeT0iMCIgcj0iNDAiLz4KPGNpcmNsZSBjeD0iMzQuNjQxIiBjeT0iMjAiIHI9IjQwIi8+CjxjaXJjbGUgY3g9IjAiIGN5PSI0MCIgcj0iNDAiLz4KPGNpcmNsZSBjeD0iMzQuNjQxIiBjeT0iNjAiIHI9IjQwIi8+CjxjaXJjbGUgY3g9IjAiIGN5PSI4MCIgcj0iNDAiLz4KPGNpcmNsZSBjeD0iNjkuMjgyIiBjeT0iLTQwIiByPSI0MCIvPgo8Y2lyY2xlIGN4PSIxMDMuOTIzIiBjeT0iLTIwIiByPSI0MCIvPgo8Y2lyY2xlIGN4PSI2OS4yODIiIGN5PSIwIiByPSI0MCIvPgo8Y2lyY2xlIGN4PSIxMDMuOTIzIiBjeT0iMjAiIHI9IjQwIi8+CjxjaXJjbGUgY3g9IjY5LjI4MiIgY3k9IjQwIiByPSI0MCIvPgo8Y2lyY2xlIGN4PSIxMDMuOTIzIiBjeT0iNjAiIHI9IjQwIi8+CjxjaXJjbGUgY3g9IjY5LjI4MiIgY3k9IjgwIiByPSI0MCIvPgo8L2c+CjxwYXRoIGQ9Ik0tMy40IDBMMy40IDBNLTIuNDA0IC0yLjQwNEwyLjQwNCAyLjQwNE0tMCAtMy40TDAgMy40TTIuNDA0IC0yLjQwNEwtMi40MDQgMi40MDRNMzEuMjQxIDIwTDM4LjA0MSAyME0zMi4yMzcgMTcuNTk2TDM3LjA0NSAyMi40MDRNMzQuNjQxIDE2LjZMMzQuNjQxIDIzLjRNMzcuMDQ1IDE3LjU5NkwzMi4yMzcgMjIuNDA0TS0zLjQgNDBMMy40IDQwTS0yLjQwNCAzNy41OTZMMi40MDQgNDIuNDA0TS0wIDM2LjZMMCA0My40TTIuNDA0IDM3LjU5NkwtMi40MDQgNDIuNDA0TTY1Ljg4MiAwTDcyLjY4MiAwTTY2Ljg3OCAtMi40MDRMNzEuNjg2IDIuNDA0TTY5LjI4MiAtMy40TDY5LjI4MiAzLjRNNzEuNjg2IC0yLjQwNEw2Ni44NzggMi40MDRNNjUuODgyIDQwTDcyLjY4MiA0ME02Ni44NzggMzcuNTk2TDcxLjY4NiA0Mi40MDRNNjkuMjgyIDM2LjZMNjkuMjgyIDQzLjRNNzEuNjg2IDM3LjU5Nkw2Ni44NzggNDIuNDA0IiBmaWxsPSJub25lIiBzdHJva2U9IiNkMGQwZDAiIHN0cm9rZS13aWR0aD0iMi4wIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+") center top / 50% auto repeat;
   color: #202020;
   transform-origin: top;
@@ -39,7 +32,7 @@
   letter-spacing: 0.3em;
 }
 
-/* The three words: a tight stack, like a wordmark */
+/* The three words */
 .home-hero__main {
   align-self: center;
   padding: clamp(1.5rem, 4vw, 3rem) var(--page-pad) clamp(1.5rem, 4vw, 3rem) clamp(1.25rem, 4vw, 4rem);
@@ -47,20 +40,19 @@
 
 .home-hero__title {
   display: grid;
-  grid-template-columns: auto auto;         /* words, then their katakana */
+  grid-template-columns: auto auto;         /* words, then katakana */
   justify-content: start;
   align-items: baseline;
   column-gap: clamp(0.75rem, 2.5vw, 2.5rem);
   margin: 0;
   font-family: var(--display);
   font-weight: 400;
-  /* sized by the screen's width AND height so all three words always fit without scrolling */
   font-size: min(21vw, 17svh, 10rem);
   line-height: 1;
   letter-spacing: 0.005em;
 }
 
-.home-hero__row { display: contents; }      /* lets word + katakana line up in two columns */
+.home-hero__row { display: contents; }      /* word + katakana line up in two columns */
 .home-hero__row:nth-child(1) { --d: 0.5s; }
 .home-hero__row:nth-child(2) { --d: 0.9s; }
 .home-hero__row:nth-child(3) { --d: 1.3s; }
@@ -69,7 +61,6 @@
   animation: hero-rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d) both;
 }
 
-/* The same word in katakana, small, beside it */
 .home-hero__ja {
   font-family:  "Noto Sans CJK JP", "Yu Gothic", "Hiragino Sans", Meiryo, sans-serif;
   font-weight: 700;
@@ -81,9 +72,9 @@
 }
 
 /* ---------- INTRO ---------- */
-/* Everything that controls this section's spacing lives right here. */
+
 .home-intro {
-  padding: clamp(2.5rem, 8vw, 8rem) var(--page-pad);   /* space above and below the whole section */
+  padding: clamp(2.5rem, 8vw, 8rem) var(--page-pad);   
 }
 
 .home-intro__inner {
@@ -92,6 +83,11 @@
   grid-template-columns: max-content minmax(0, 1fr);    /* "Hola!" column is only as wide as the word */
   gap: clamp(2rem, 4vw, 4rem);                          /* space between "Hola!" and the text */
   align-items: start;
+}
+.home-intro__logo {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 /* "Hola!" */
