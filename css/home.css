@@ -146,12 +146,12 @@
 /* ---------- SMALL SCREENS ---------- */
 @media (max-width: 900px) {
   .home-intro__inner { grid-template-columns: 1fr; gap: 1rem; }
-  img .home-intro-logo { display: block; margin-left: auto; margin-right: auto; width: 50%; }
+  img.home-intro-logo { display: block; margin-left: auto; margin-right: auto; width: 50%; }
 }
 
 @media (max-width: 720px) {
   .home-hero { min-height: 20rem; }
   .home-hero__title { font-size: min(19vw, 17svh); }
   .home-hero__ja { font-size: 0.8rem; letter-spacing: 0.05em; }
-  img .home-intro-logo { display: block; margin-left: auto; margin-right: auto; width: 50%; }
+  img.home-intro-logo { display: block; margin-left: auto; margin-right: auto; width: 50%; }
 }
